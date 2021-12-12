@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
-import 'package:cozy_mart_0/Componnets/ourButton.dart';
+import 'package:cozy_mart_0/Componnets/defButton.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -64,7 +64,12 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: 30.0,
                     ),
-                    ourButton()
+                    defButton(
+                      buttonText: 'Log In',
+                      buttonDestination: SignupPage(),
+                      bWidth: 200,
+                      bHeight: 50,
+                    ),
                   ],
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:cozy_mart_0/Componnets/defButton.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
@@ -25,59 +26,30 @@ class WelcomePage extends StatelessWidget {
                     width: 150,
                   ),
                   const SizedBox(
-                    height: 80.0,
+                    height: 50.0,
                   ),
                   const Text(
                     'Welcome!',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 40.0,
+                        fontSize: 55.0,
                         fontFamily: 'Montserrat'),
                   ),
                   const SizedBox(
                     height: 50.0,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // ignore: prefer_const_constructors
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return LoginPage();
-                      }));
-                    },
-                    child: const Text(
-                      'Login',
-                      style:
-                          TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF6C2B95),
-                        fixedSize: const Size(300.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50))),
-                  ),
+                  defButton(
+                      buttonText: 'Log In', buttonDestination: LoginPage()),
                   const SizedBox(
-                    height: 30.0,
+                    height: 25.0,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // ignore: prefer_const_constructors
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return SignupPage();
-                      }));
-                    },
-                    child: const Text(
-                      'Sign Up',
-                      style:
-                          TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF6C2B95),
-                        fixedSize: const Size(300.0, 60.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50))),
-                  )
+                  defButton(
+                    buttonText: 'Sign Up',
+                    buttonDestination: SignupPage(),
+                  ),
+                  // const SizedBox(
+                  //  height: 30.0,
+                  // ),
                 ],
               ),
             ),
