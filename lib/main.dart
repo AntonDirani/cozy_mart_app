@@ -2,24 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/welcome_page.dart';
 import 'Providers/theme_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  return runApp(MultiProvider(
-    providers: [
-      Provider<ThemeProvider>(create: (_) => ThemeProvider(isDarkTheme)),
-    ],
-    child: MyApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.getInstance().then((prefs) {
+    var isDarkTheme = prefs.getBool("darkTheme") ?? false;
+    return runApp(
+      ChangeNotifierProvider<ThemeProvider>(
+        child: MyApp(),
+        create: (BuildContext context) {
+          return ThemeProvider(isDarkTheme);
+        },
+      ),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-    );
+    return Consumer<ThemeProvider>(builder: (context, value, child) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: WelcomePage(),
+        theme: value.getTheme(),
+      );
+    });
   }
 }

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cozy_mart_0/constants.dart';
 
 class ThemeProvider extends ChangeNotifier {
   late ThemeData _selectedTheme;
   late Typography defaultTypography;
   late SharedPreferences prefs;
 
-  ThemeData dark = ThemeData.dark().copyWith();
+  ThemeData dark = ThemeData(
+      primaryColor: Colors.deepPurple,
+      primarySwatch: Colors.deepPurple,
+      brightness: Brightness.dark,
+      textTheme:
+          TextTheme().apply(bodyColor: Colors.pink, displayColor: Colors.pink));
 
-  ThemeData light = ThemeData.light().copyWith();
+  ThemeData light = ThemeData(
+    primaryColor: Colors.black,
+    primarySwatch: Colors.deepPurple,
+  );
 
   ThemeProvider(bool darkThemeOn) {
     _selectedTheme = darkThemeOn ? dark : light;

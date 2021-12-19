@@ -31,10 +31,8 @@ class LoginPage extends StatelessWidget {
                     ),
                     const Text(
                       'Log in',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.0,
-                          fontFamily: 'Montserrat'),
+                      style:
+                          TextStyle(fontSize: 30.0, fontFamily: 'Montserrat'),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),

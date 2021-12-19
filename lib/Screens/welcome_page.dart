@@ -2,11 +2,10 @@ import 'package:cozy_mart_0/Componnets/defButton.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
-import 'lib/Providers/theme_provider.dart';
+import 'package:cozy_mart_0/Providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +43,7 @@ class WelcomePage extends StatelessWidget {
                   const Text(
                     'Welcome!',
                     style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontSize: 55.0,
                         fontFamily: 'Montserrat'),
                   ),
