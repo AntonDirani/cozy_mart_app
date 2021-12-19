@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Screens/welcome_page.dart';
+import 'Providers/theme_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  return runApp(MultiProvider(
+    providers: [
+      Provider<ThemeProvider>(create: (_) => ThemeProvider(isDarkTheme)),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

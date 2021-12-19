@@ -2,6 +2,7 @@ import 'package:cozy_mart_0/Componnets/defButton.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
+import 'lib/Providers/theme_provider.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -9,6 +10,18 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cozy Mart'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).swapTheme();
+            },
+            icon: const Icon(Icons.brightness_6),
+            color: Colors.white,
+          )
+        ],
+      ),
       body: Container(
         child: SafeArea(
           child: Center(
@@ -47,6 +60,7 @@ class WelcomePage extends StatelessWidget {
                     buttonText: 'Sign Up',
                     buttonDestination: SignupPage(),
                   ),
+
                   // const SizedBox(
                   //  height: 30.0,
                   // ),
