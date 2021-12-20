@@ -39,29 +39,19 @@ class LoginPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            filled: true,
-                            labelText: 'Email',
-                            prefixIcon: const Icon(Icons.email_rounded),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            )),
+                      child: TextField(
+                        label: 'Email',
+                        prefixIcon: Icon(Icons.email),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                            filled: true,
-                            labelText: 'Password',
-                            prefixIcon: const Icon(Icons.lock),
-                            suffixIcon: const Icon(Icons.remove_red_eye),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            )),
-                      ),
-                    ),
+                        padding:
+                            const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                        child: TextField(
+                          label: 'Password',
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon: Icon(Icons.remove_red_eye),
+                        )),
                     const SizedBox(
                       height: 30.0,
                     ),
@@ -78,6 +68,33 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TextField extends StatelessWidget {
+  late String label;
+  late Icon? prefixIcon;
+  late Icon? suffixIcon;
+  late double? height, width;
+
+  TextField(
+      {this.height,
+      required this.label,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.width});
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+          filled: true,
+          labelText: label,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          )),
     );
   }
 }
