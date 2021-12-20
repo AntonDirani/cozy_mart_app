@@ -76,7 +76,7 @@ class TextField extends StatelessWidget {
   late String label;
   late Icon? prefixIcon;
   late Icon? suffixIcon;
-  late double? height, width;
+  late double? heig;ht, width;
 
   TextField(
       {this.height,
