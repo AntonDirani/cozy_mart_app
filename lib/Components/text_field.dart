@@ -20,6 +20,7 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
           filled: true,
           labelText: label,
+          hintText: hint,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
