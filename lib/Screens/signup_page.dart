@@ -14,7 +14,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController dateinput = TextEditingController();
   @override
   void initState() {
-    dateinput.text = "";
+    dateinput.text = "   ";
     super.initState();
   }
 
@@ -22,14 +22,14 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sing up'),
+        title: const Text('Sign up'),
       ),
       body: SingleChildScrollView(
         child: Container(
           child: SafeArea(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -82,6 +82,7 @@ class _SignupPageState extends State<SignupPage> {
                       child: TextField(
                         controller: dateinput,
                         decoration: InputDecoration(
+                            filled: true,
                             labelText: 'Enter Date',
                             prefixIcon: const Icon(Icons.calendar_today),
                             border: OutlineInputBorder(
@@ -117,7 +118,7 @@ class _SignupPageState extends State<SignupPage> {
                           suffixIcon: Icon(Icons.remove_red_eye),
                         )),
                     const SizedBox(
-                      height: 30.0,
+                      height: 20.0,
                     ),
                     DefButton(
                       buttonText: 'Sign up',
