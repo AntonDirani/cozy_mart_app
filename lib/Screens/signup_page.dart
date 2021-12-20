@@ -93,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
                           DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
+                              firstDate: DateTime(1950),
                               lastDate: DateTime(2101));
 
                           if (pickedDate != null) {
