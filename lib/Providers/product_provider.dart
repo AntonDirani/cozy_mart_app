@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Product {
   late final int id = random.nextInt(100);
@@ -26,6 +27,7 @@ class Product {
 enum Sale { ten, twenty, thirty, forty, fifty, sixty, seventy, eighty }
 
 class Price {
+  late double price;
   late String before30;
   late String before15;
   late String under15;
@@ -36,4 +38,21 @@ class Price {
 class Products with ChangeNotifier {
   List<Product> productList = [];
   late File image;
+
+  void addProduct(
+      {required String title,
+      required Price price,
+      required int quantity,
+      required String category,
+      required DateTime expDate,
+      required String phoneNumber}) {
+    productList.add(Product(
+        title: title,
+        phoneNumber: phoneNumber,
+        quantity: quantity,
+        expDate: expDate,
+        category: category,
+        price: price));
+    notifyListeners();
+  }
 }
