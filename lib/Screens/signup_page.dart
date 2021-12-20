@@ -14,7 +14,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController dateinput = TextEditingController();
   @override
   void initState() {
-    dateinput.text = "   ";
+    dateinput.text = "";
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _SignupPageState extends State<SignupPage> {
           child: SafeArea(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -99,7 +99,7 @@ class _SignupPageState extends State<SignupPage> {
                           if (pickedDate != null) {
                             print(pickedDate);
                             String formattedDate =
-                                DateFormat('year-month-day').format(pickedDate);
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
                             print(formattedDate);
                             setState(() {
                               dateinput.text = formattedDate;

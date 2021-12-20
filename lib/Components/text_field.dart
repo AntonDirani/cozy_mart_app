@@ -6,7 +6,7 @@ class MyTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final Icon? suffixIcon;
   final double? height, width;
-  final Icon? keyboardType;
+  // final ? keyboardType;
 
   const MyTextField({
     this.height,
@@ -15,13 +15,13 @@ class MyTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.width,
-    this.keyboardType,
+    //this.keyboardType,
   });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-          keyboardType: keyboardType,
+          // keyboardType: keyboardType,
           filled: true,
           labelText: label,
           hintText: hint,
