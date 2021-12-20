@@ -1,14 +1,13 @@
-import 'package:cozy_mart_0/constants.dart';
 import 'package:flutter/material.dart';
 
-class TextField extends StatelessWidget {
-  late String? label;
-  late String? hint;
-  late Icon? prefixIcon;
-  late Icon? suffixIcon;
-  late double? height, width;
+class MyTextField extends StatelessWidget {
+  final String? label;
+  final String? hint;
+  final Icon? prefixIcon;
+  final Icon? suffixIcon;
+  final double? height, width;
 
-  TextField(
+  const MyTextField(
       {this.height,
       this.label,
       this.hint,

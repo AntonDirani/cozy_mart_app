@@ -1,15 +1,14 @@
-// ignore_for_file: file_names
-import 'package:cozy_mart_0/constants.dart';
+// ignore_for_file: file_names, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 
-class defButton extends StatelessWidget {
+class DefButton extends StatelessWidget {
   late final String buttonText;
   late final Color buttonColor;
   late final Widget buttonDestination;
   late double bHeight, bWidth;
-  defButton(
+  DefButton(
       {required this.buttonText,
-      this.buttonColor = primaryColor,
+      this.buttonColor = Colors.deepPurple,
       required this.buttonDestination,
       this.bWidth = 300,
       this.bHeight = 60});

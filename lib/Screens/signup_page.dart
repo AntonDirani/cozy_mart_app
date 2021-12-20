@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cozy_mart_0/Componnets/text_field.dart';
+import 'package:cozy_mart_0/Components/text_field.dart';
+import 'package:intl/intl.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({Key? key}) : super(key: key);

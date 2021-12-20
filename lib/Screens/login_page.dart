@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
 import 'signup_page.dart';
-import 'package:cozy_mart_0/Componnets/defButton.dart';
-import 'package:cozy_mart_0/Componnets/text_field.dart';
+import 'package:cozy_mart_0/Components/defButton.dart';
+import 'package:cozy_mart_0/Components/text_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -38,17 +37,16 @@ class LoginPage extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 30.0, fontFamily: 'Montserrat'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                      child: TextField(
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                      child: MyTextField(
                         label: 'Email',
                         prefixIcon: Icon(Icons.email),
                       ),
                     ),
-                    Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                        child: TextField(
+                    const Padding(
+                        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                        child: MyTextField(
                           label: 'Password',
                           prefixIcon: Icon(Icons.lock),
                           suffixIcon: Icon(Icons.remove_red_eye),
@@ -56,7 +54,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(
                       height: 30.0,
                     ),
-                    defButton(
+                    DefButton(
                       buttonText: 'Log In',
                       buttonDestination: SignupPage(),
                       bWidth: 200,
@@ -69,35 +67,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class TextField extends StatelessWidget {
-  late String? label;
-  late String? hint;
-  late Icon? prefixIcon;
-  late Icon? suffixIcon;
-  late double? heig;ht, width;
-
-  TextField(
-      {this.height,
-      this.label,
-      this.hint,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.width});
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-          filled: true,
-          labelText: label,
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          )),
     );
   }
 }

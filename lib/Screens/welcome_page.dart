@@ -1,4 +1,4 @@
-import 'package:cozy_mart_0/Componnets/defButton.dart';
+import 'package:cozy_mart_0/Components/defButton.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
@@ -50,12 +50,12 @@ class WelcomePage extends StatelessWidget {
                   const SizedBox(
                     height: 50.0,
                   ),
-                  defButton(
+                  DefButton(
                       buttonText: 'Log In', buttonDestination: LoginPage()),
                   const SizedBox(
                     height: 25.0,
                   ),
-                  defButton(
+                  DefButton(
                     buttonText: 'Sign Up',
                     buttonDestination: SignupPage(),
                   ),
