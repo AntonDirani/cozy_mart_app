@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
 import 'package:cozy_mart_0/Componnets/defButton.dart';
+import 'package:cozy_mart_0/Componnets/text_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -73,14 +74,16 @@ class LoginPage extends StatelessWidget {
 }
 
 class TextField extends StatelessWidget {
-  late String label;
+  late String? label;
+  late String? hint;
   late Icon? prefixIcon;
   late Icon? suffixIcon;
   late double? heig;ht, width;
 
   TextField(
       {this.height,
-      required this.label,
+      this.label,
+      this.hint,
       this.prefixIcon,
       this.suffixIcon,
       this.width});
