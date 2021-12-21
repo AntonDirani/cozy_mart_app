@@ -10,14 +10,14 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cozy Mart'),
+        // backgroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).swapTheme();
             },
             icon: const Icon(Icons.brightness_6),
-            color: Colors.white,
+            //color: Colors.white,
           )
         ],
       ),

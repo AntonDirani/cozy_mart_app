@@ -28,8 +28,8 @@ class MyTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          )),
+              borderRadius: BorderRadius.circular(30),
+              borderSide: const BorderSide(color: Colors.deepPurple))),
     );
   }
 }

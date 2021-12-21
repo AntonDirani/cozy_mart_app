@@ -1,3 +1,4 @@
+import 'package:cozy_mart_0/Screens/all_products.dart';
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'package:cozy_mart_0/Components/defButton.dart';
@@ -21,9 +22,6 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 60.0,
-                    ),
                     Image.asset(
                       'images/Login.png',
                       height: 250,
@@ -56,7 +54,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     DefButton(
                       buttonText: 'Log In',
-                      buttonDestination: SignupPage(),
+                      buttonDestination: AllProducts(),
                       bWidth: 200,
                       bHeight: 50,
                     ),
