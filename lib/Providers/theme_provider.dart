@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cozy_mart_0/Components/constants.dart';
 
-class ThemeProvider extends ChangeNotifier {
+class ThemeProvider with ChangeNotifier {
   late ThemeData _selectedTheme;
   late Typography defaultTypography;
   late SharedPreferences prefs;

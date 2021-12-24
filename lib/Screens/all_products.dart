@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
 import 'package:provider/provider.dart';
-import 'product_details.dart';
+import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 
 class AllProducts extends StatelessWidget {
@@ -105,13 +105,14 @@ class Body extends StatelessWidget {
                       ),
                       itemBuilder: (context, index) => ItemCard(
                             product: prodList[index],
-                            /* press: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailsScreen(
-                                product: Provider.of<Products>(context).productsList[index],
-                              ),
-                            )),*/
+                            press: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return DetailsScreen(
+                                  product: prodList[index],
+                                );
+                              }));
+                            },
                           )),
             ),
           ),
@@ -185,16 +186,19 @@ class _CategoriesState extends State<Categories> {
 
 class ItemCard extends StatelessWidget {
   final Product product;
-  final Function? press;
+  Function press;
   ItemCard({
+    Key? key,
     required this.product,
-    this.press,
-  });
+    required this.press,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      //  onTap: ,
+      onTap: () {
+        press();
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -202,7 +206,7 @@ class ItemCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
-                color: Color(0xFFBE93D4),
+                color: const Color(0xFFBE93D4),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
