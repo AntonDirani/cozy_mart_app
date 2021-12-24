@@ -38,6 +38,7 @@ class LoginPage extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                       child: MyTextField(
+                        keyboardType: TextInputType.emailAddress,
                         label: 'Email',
                         prefixIcon: Icon(Icons.email),
                       ),
