@@ -20,13 +20,13 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           filled: true,
           labelText: label,
           hintText: hint,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
-          // keyboardType: keyboardType,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: const BorderSide(color: Colors.deepPurple))),

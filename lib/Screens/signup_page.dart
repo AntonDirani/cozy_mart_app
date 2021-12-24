@@ -1,4 +1,5 @@
 import 'package:cozy_mart_0/Components/defButton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Components/text_field.dart';
 import 'package:intl/intl.dart';
@@ -67,6 +68,7 @@ class _SignupPageState extends State<SignupPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                       child: MyTextField(
+                        keyboardType: TextInputType.emailAddress,
                         hint: 'Email',
                         prefixIcon: Icon(Icons.email),
                       ),
@@ -74,6 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                       child: MyTextField(
+                        keyboardType: TextInputType.number,
                         hint: 'Phone Number',
                       ),
                     ),
