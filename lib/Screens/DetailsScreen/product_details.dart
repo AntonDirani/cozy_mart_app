@@ -17,6 +17,12 @@ class DetailsScreen extends StatelessWidget {
   }
 
   AppBar buildAppBar(BuildContext context) {
-    return AppBar();
+    return AppBar(
+      title: Text(
+        product!.title,
+        style: TextStyle(fontSize: 30),
+      ),
+      backgroundColor: const Color(0xFFBE93D4),
+    );
   }
 }

@@ -17,7 +17,7 @@ class Body extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: size.height * 0.4),
+                  margin: EdgeInsets.only(top: size.height * 0.42),
                   padding: EdgeInsets.only(
                     top: size.height * 0.1,
                     left: 20,
@@ -115,7 +115,36 @@ class Body extends StatelessWidget {
                     ],
                   ),
                 ),
-                //  ProductTitleWithImage(product: product)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      /*Text(
+                        product!.title,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),*/
+                      SizedBox(height: 20.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Hero(
+                              tag: "${product!.id}",
+                              child: Image.network(
+                                'https://i.pinimg.com/originals/4e/be/50/4ebe50e2495b17a79c31e48a0e54883f.png',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           )
