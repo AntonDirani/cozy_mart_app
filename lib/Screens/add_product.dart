@@ -107,7 +107,6 @@ class _AddProductState extends State<AddProduct> {
                   print("Date is not selected");
                 }
               },
-              selectionControls: ,
             ),
             ListTile(
               title: const Text(' Category :'),
