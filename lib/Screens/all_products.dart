@@ -1,9 +1,11 @@
+import 'package:cozy_mart_0/Screens/edit_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
 import 'package:provider/provider.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
+import 'edit_profile.dart';
 
 class AllProducts extends StatelessWidget {
   @override
@@ -30,6 +32,19 @@ class AllProducts extends StatelessWidget {
               ListTile(
                 title: const Text('Item 2'),
                 onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Edit Profile'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfile(),
+                    ),
+                  );
                   // Update the state of the app.
                   // ...
                 },
