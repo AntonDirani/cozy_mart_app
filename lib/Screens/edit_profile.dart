@@ -4,9 +4,10 @@ import 'package:cozy_mart_0/Components/defButton.dart';
 import 'package:flutter/material.dart';
 
 class EditProfile extends StatelessWidget {
-  var chnameController = TextEditingController()..text = ' ';
-  var chemailController = TextEditingController()..text = ' ';
-  var chphoneController = TextEditingController()..text = ' ';
+  TextEditingController chnameController = TextEditingController();
+  TextEditingController chemailController = TextEditingController();
+  TextEditingController chphoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
