@@ -18,13 +18,12 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController priceController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-
   //
   static const menuItems = <String>[
-    'category1',
-    'category2',
-    'category3',
-    'category4',
+    'One',
+    'Two',
+    'Three',
+    'Four',
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
@@ -43,7 +42,9 @@ class _AddProductState extends State<AddProduct> {
       )
       .toList();
 
-  String _btn1SelectedVal = 'category';
+  String _btn1SelectedVal = 'One';
+  String? _btn2SelectedVal;
+  late String _btn3SelectedVal;
 
   @override
   void initState() {
@@ -109,8 +110,9 @@ class _AddProductState extends State<AddProduct> {
               },
             ),
             ListTile(
-              title: const Text(' Category :'),
+              title: const Text('DropDownButton with default:'),
               trailing: DropdownButton<String>(
+                // Must be one of items.value.
                 value: _btn1SelectedVal,
                 onChanged: (String? newValue) {
                   if (newValue != null) {
