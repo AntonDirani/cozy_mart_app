@@ -11,20 +11,47 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  var titleController = TextEditingController()..text = ' ';
-  var descriptionController = TextEditingController()..text = ' ';
-  var quantityController = TextEditingController()..text = ' ';
-  var phoneController = TextEditingController()..text = ' ';
-  var priceController = TextEditingController()..text = ' ';
-  var categoryController = TextEditingController()..text = ' ';
-  var expdateController = TextEditingController()..text = ' ';
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
-  TextEditingController dateinput = TextEditingController();
+  //
+  static const menuItems = <String>[
+    'category1',
+    'category2',
+    'category3',
+    'category4',
+  ];
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
+      .map(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+  final List<PopupMenuItem<String>> _popUpMenuItems = menuItems
+      .map(
+        (String value) => PopupMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+
+  String _btn1SelectedVal = 'category';
+
   @override
   void initState() {
-    dateinput.text = "";
+    dateController.text = "";
     super.initState();
   }
+
+  bool _customTileExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +82,7 @@ class _AddProductState extends State<AddProduct> {
               labelp: 'Price',
             ),
             TextField(
-              controller: dateinput,
+              controller: dateController,
               decoration: const InputDecoration(
                 labelText: 'Expiration Date ',
                 prefixIcon: Icon(Icons.calendar_today),
@@ -74,53 +101,29 @@ class _AddProductState extends State<AddProduct> {
                       DateFormat('yyyy-MM-dd').format(pickedDate);
                   print(formattedDate);
                   setState(() {
-                    dateinput.text = formattedDate;
+                    dateController.text = formattedDate;
                   });
                 } else {
                   print("Date is not selected");
                 }
               },
+              selectionControls: ,
+            ),
+            ListTile(
+              title: const Text(' Category :'),
+              trailing: DropdownButton<String>(
+                value: _btn1SelectedVal,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() => _btn1SelectedVal = newValue);
+                  }
+                },
+                items: this._dropDownMenuItems,
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-class Entry {
-  const Entry(this.title, [this.children = const <Entry>[]]);
-  final String title;
-  final List<Entry> children;
-}
-
-const List<Entry> data = <Entry>[
-  Entry(
-    'Category',
-    <Entry>[
-      Entry('category1'),
-      Entry('category2'),
-      Entry('category3'),
-    ],
-  ),
-];
-
-class EntryItem extends StatelessWidget {
-  const EntryItem(this.entry);
-
-  final Entry entry;
-
-  Widget _buildTiles(Entry root) {
-    if (root.children.isEmpty) return ListTile(title: Text(root.title));
-    return ExpansionTile(
-      key: PageStorageKey<Entry>(root),
-      title: Text(root.title),
-      children: root.children.map(_buildTiles).toList(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildTiles(entry);
   }
 }
