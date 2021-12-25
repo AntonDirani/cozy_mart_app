@@ -110,7 +110,7 @@ class _AddProductState extends State<AddProduct> {
               },
             ),
             ListTile(
-              title: const Text('DropDownButton with default:'),
+              title: const Text('category:'),
               trailing: DropdownButton<String>(
                 // Must be one of items.value.
                 value: _btn1SelectedVal,
