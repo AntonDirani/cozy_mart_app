@@ -45,24 +45,11 @@ class _SignupPageState extends State<SignupPage> {
                     const SizedBox(
                       height: 30.0,
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: MyTextField(
-                              hint: 'First name',
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: MyTextField(
-                              hint: 'Last name',
-                            ),
-                          ),
-                        ],
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
+                      child: MyTextField(
+                        hint: 'Full Name',
+                        prefixIcon: Icon(Icons.account_circle_sharp),
                       ),
                     ),
                     const Padding(

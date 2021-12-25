@@ -7,6 +7,7 @@ class MyTextField extends StatelessWidget {
   final Icon? suffixIcon;
   final double? height, width;
   final TextInputType? keyboardType;
+  final bool? filled;
 
   const MyTextField({
     this.height,
@@ -16,13 +17,14 @@ class MyTextField extends StatelessWidget {
     this.suffixIcon,
     this.width,
     this.keyboardType,
+    this.filled = true,
   });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
       decoration: InputDecoration(
-          filled: true,
+          filled: filled,
           labelText: label,
           hintText: hint,
           prefixIcon: prefixIcon,
@@ -30,6 +32,34 @@ class MyTextField extends StatelessWidget {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: const BorderSide(color: Colors.deepPurple))),
+    );
+  }
+}
+
+class TextFieldP extends StatelessWidget {
+  final String? labelp;
+  final String? hintp;
+  final Icon? prefixIconp;
+  final Icon? suffixIconp;
+  final TextInputType? keyboardTypep;
+
+  const TextFieldP({
+    this.labelp,
+    this.hintp,
+    this.prefixIconp,
+    this.suffixIconp,
+    this.keyboardTypep,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: keyboardTypep,
+      decoration: InputDecoration(
+        labelText: labelp,
+        hintText: hintp,
+        prefixIcon: prefixIconp,
+        suffixIcon: suffixIconp,
+      ),
     );
   }
 }

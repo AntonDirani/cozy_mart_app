@@ -6,12 +6,18 @@ class DefButton extends StatelessWidget {
   late final Color buttonColor;
   late final Widget buttonDestination;
   late double bHeight, bWidth;
-  DefButton(
-      {required this.buttonText,
-      this.buttonColor = Colors.deepPurple,
-      required this.buttonDestination,
-      this.bWidth = 300,
-      this.bHeight = 60});
+  late double bFontSize;
+  late String bFontFamily;
+
+  DefButton({
+    required this.buttonText,
+    this.buttonColor = Colors.deepPurple,
+    required this.buttonDestination,
+    this.bWidth = 300,
+    this.bHeight = 60,
+    this.bFontSize = 20,
+    this.bFontFamily = 'Montserrat',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,10 @@ class DefButton extends StatelessWidget {
       },
       child: Text(
         buttonText,
-        style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
+        style: TextStyle(
+          fontFamily: bFontFamily,
+          fontSize: bFontSize,
+        ),
       ),
       style: ElevatedButton.styleFrom(
           primary: buttonColor,
