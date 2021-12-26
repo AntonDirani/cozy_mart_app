@@ -20,10 +20,10 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController dateController = TextEditingController();
   //
   static const menuItems = <String>[
-    'One',
-    'Two',
-    'Three',
-    'Four',
+    'category1',
+    'category2',
+    'category3',
+    'category4',
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
@@ -42,17 +42,13 @@ class _AddProductState extends State<AddProduct> {
       )
       .toList();
 
-  String _btn1SelectedVal = 'One';
-  String? _btn2SelectedVal;
-  late String _btn3SelectedVal;
+  String _btn1SelectedVal = 'category1';
 
   @override
   void initState() {
     dateController.text = "";
     super.initState();
   }
-
-  bool _customTileExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,26 +57,31 @@ class _AddProductState extends State<AddProduct> {
         title: const Text('Add Product'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView(
           children: [
-            const TextFieldP(
+            TextFieldP(
               labelp: 'Title',
+              controller: titleController,
             ),
-            const TextFieldP(
+            TextFieldP(
               labelp: 'Description',
+              controller: descriptionController,
             ),
-            const TextFieldP(
+            TextFieldP(
               keyboardTypep: TextInputType.number,
               labelp: 'Quantity',
+              controller: quantityController,
             ),
-            const TextFieldP(
+            TextFieldP(
               keyboardTypep: TextInputType.number,
               labelp: 'Phone Number',
+              controller: phoneController,
             ),
-            const TextFieldP(
+            TextFieldP(
               keyboardTypep: TextInputType.number,
               labelp: 'Price',
+              controller: priceController,
             ),
             TextField(
               controller: dateController,
@@ -112,7 +113,6 @@ class _AddProductState extends State<AddProduct> {
             ListTile(
               title: const Text('category:'),
               trailing: DropdownButton<String>(
-                // Must be one of items.value.
                 value: _btn1SelectedVal,
                 onChanged: (String? newValue) {
                   if (newValue != null) {

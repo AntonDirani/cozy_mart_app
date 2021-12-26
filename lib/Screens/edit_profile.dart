@@ -23,19 +23,22 @@ class EditProfile extends StatelessWidget {
                 const SizedBox(
                   height: 40.0,
                 ),
-                const TextFieldP(
+                TextFieldP(
                   keyboardTypep: TextInputType.name,
                   labelp: 'Change name',
                   prefixIconp: Icon(Icons.account_circle_sharp),
+                  controller: chnameController,
                 ),
-                const TextFieldP(
+                TextFieldP(
                   keyboardTypep: TextInputType.emailAddress,
                   labelp: 'Email',
                   prefixIconp: Icon(Icons.email),
+                  controller: chemailController,
                 ),
-                const TextFieldP(
+                TextFieldP(
                   keyboardTypep: TextInputType.number,
                   labelp: 'Change Phone Number',
+                  controller: chphoneController,
                 ),
                 const SizedBox(
                   height: 40.0,

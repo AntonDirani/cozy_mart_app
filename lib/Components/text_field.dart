@@ -42,18 +42,20 @@ class TextFieldP extends StatelessWidget {
   final Icon? prefixIconp;
   final Icon? suffixIconp;
   final TextInputType? keyboardTypep;
-
+  final TextEditingController? controller;
   const TextFieldP({
     this.labelp,
     this.hintp,
     this.prefixIconp,
     this.suffixIconp,
     this.keyboardTypep,
+    this.controller,
   });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardTypep,
+      controller: controller,
       decoration: InputDecoration(
         labelText: labelp,
         hintText: hintp,
