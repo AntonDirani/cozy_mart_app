@@ -147,20 +147,24 @@ class _AddProductState extends State<AddProduct> {
             const SizedBox(
               height: 30,
             ),
-            RaisedButton(
-              color: Colors.white30,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white30,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
               child: const Text('Choose picture from Gallery'),
               onPressed: () => pickImage(),
             ),
             const SizedBox(
               height: 10,
             ),
-            RaisedButton(
-              color: Colors.white30,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white30,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
               child: const Text('Add Product'),
               onPressed: () => AllProducts(),
             ),
