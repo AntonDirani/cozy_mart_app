@@ -24,7 +24,6 @@ class EditProfile extends StatelessWidget {
                   height: 40.0,
                 ),
                 TextFieldP(
-                  keyboardTypep: TextInputType.name,
                   labelp: 'Change name',
                   prefixIconp: Icon(Icons.account_circle_sharp),
                   controller: chnameController,

@@ -1,8 +1,11 @@
+//import 'dart:html';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 //import 'package:cross_file/cross_file.dart';
+import 'dart:async';
+import 'dart:io';
 
 class Product {
   late final int id = random.nextInt(100);
@@ -10,7 +13,7 @@ class Product {
   late final int quantity;
   late final String phoneNumber;
   late final String description;
-  late String image; //File
+  //late final File image; //File
   late final DateTime expDate;
   late final String category;
   late double price; //Price
@@ -25,6 +28,7 @@ class Product {
     //required this.expDate,
     //required this.category,
     required this.price,
+    // required this.image,
   });
 }
 
@@ -50,38 +54,41 @@ class Products with ChangeNotifier {
             'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'),
   ];
 
-  //late File image;
+  late File image;
 
-  void addProduct(
-      {required String description,
-      required String title,
-      required double price, //Price
-      required int quantity,
-      required String category,
-      required DateTime expDate,
-      required String phoneNumber}) {
+  void addProduct({
+    required String description,
+    required String title,
+    required double price, //Price
+    required int quantity,
+    required String category,
+    required DateTime expDate,
+    required String phoneNumber,
+    //required this.image,
+  }) {
     productsList.add(Product(
-        description: description,
-        title: title,
-        phoneNumber: phoneNumber,
-        quantity: quantity,
-        // expDate: expDate,
-        //category: category,
-        price: price
-        // image :image ,
-        ));
+      description: description,
+      title: title,
+      phoneNumber: phoneNumber,
+      quantity: quantity,
+      // expDate: expDate,
+      //category: category,
+      price: price,
+      //image: image,
+    ));
     notifyListeners();
   }
 
-  //Future<void> getImage(ImageSource src) async {
-  //final _picker = ImagePicker();
-  //final XFile? pickedFile = await _picker.pickImage(source: src);
+  /* Future getImages(ImageSource src) async {
+    final _picker = ImagePicker();
+    final pickedFile = await ImagePicker().getImage(source: src);
 
-  //if (pickedFile != null) {
-  // image = File(pickedFile.path);
-  //notifyListeners();
-  //print('image selected');
-  //} else {
-  //print('no image selected');
-  //}
+    if (pickedFile != null) {
+      image = File(pickedFile.path);
+      notifyListeners();
+      print('image selected');
+    } else {
+      print('no image selected');
+    }
+  }*/
 }

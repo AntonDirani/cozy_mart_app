@@ -1,7 +1,12 @@
 import 'package:cozy_mart_0/Components/text_field.dart';
+import 'package:cozy_mart_0/Providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'dart:io';
+
+import 'all_products.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -50,51 +55,63 @@ class _AddProductState extends State<AddProduct> {
     super.initState();
   }
 
+  File? image;
+  Future pickImage() async {
+    //try {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    final imageT = File(image.path);
+    setState(() => this.image = imageT);
+    //}on PlatException catch (e){
+    //print('Failed to pick image:$e')}
+  }
+
   @override
   Widget build(BuildContext context) {
+    // File image = Provider.of<Products>(context, listen: true).image;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Product'),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView(
           children: [
             TextFieldP(
-              labelp: 'Title',
+              labelp: '  Title',
               controller: titleController,
             ),
             TextFieldP(
-              labelp: 'Description',
+              labelp: '  Description',
               controller: descriptionController,
             ),
             TextFieldP(
               keyboardTypep: TextInputType.number,
-              labelp: 'Quantity',
+              labelp: '  Quantity',
               controller: quantityController,
             ),
             TextFieldP(
               keyboardTypep: TextInputType.number,
-              labelp: 'Phone Number',
+              labelp: '  Phone Number',
               controller: phoneController,
             ),
             TextFieldP(
               keyboardTypep: TextInputType.number,
-              labelp: 'Price',
+              labelp: '  Price',
               controller: priceController,
             ),
             TextField(
               controller: dateController,
               decoration: const InputDecoration(
-                labelText: 'Expiration Date ',
-                prefixIcon: Icon(Icons.calendar_today),
+                labelText: '  Expiration Date ',
+                suffixIcon: Icon(Icons.calendar_today),
               ),
               readOnly: true,
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(1950),
+                    firstDate: DateTime(2020),
                     lastDate: DateTime(2101));
 
                 if (pickedDate != null) {
@@ -111,7 +128,12 @@ class _AddProductState extends State<AddProduct> {
               },
             ),
             ListTile(
-              title: const Text('category:'),
+              title: const Text(
+                'Category :',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                ),
+              ),
               trailing: DropdownButton<String>(
                 value: _btn1SelectedVal,
                 onChanged: (String? newValue) {
@@ -121,6 +143,26 @@ class _AddProductState extends State<AddProduct> {
                 },
                 items: this._dropDownMenuItems,
               ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            RaisedButton(
+              color: Colors.white30,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: const Text('Choose picture from Gallery'),
+              onPressed: () => pickImage(),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            RaisedButton(
+              color: Colors.white30,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: const Text('Add Product'),
+              onPressed: () => AllProducts(),
             ),
           ],
         ),

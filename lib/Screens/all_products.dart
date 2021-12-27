@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 import 'edit_profile.dart';
+import 'my_account.dart';
 
 class AllProducts extends StatelessWidget {
   @override
@@ -37,12 +38,12 @@ class AllProducts extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: const Text('Edit Profile'),
+                title: const Text('My Account'),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProfile(),
+                      builder: (context) => MyAccount(),
                     ),
                   );
                   // Update the state of the app.

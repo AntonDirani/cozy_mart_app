@@ -43,6 +43,8 @@ class TextFieldP extends StatelessWidget {
   final Icon? suffixIconp;
   final TextInputType? keyboardTypep;
   final TextEditingController? controller;
+  final String? text;
+  //final ValueChanged<String> onChanged;
   const TextFieldP({
     this.labelp,
     this.hintp,
@@ -50,6 +52,8 @@ class TextFieldP extends StatelessWidget {
     this.suffixIconp,
     this.keyboardTypep,
     this.controller,
+    this.text,
+    //required this.onChanged,
   });
   @override
   Widget build(BuildContext context) {
