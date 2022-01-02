@@ -10,63 +10,48 @@ class MyAccount extends StatelessWidget {
     final user = UserPreferences.myUser;
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Account'),
-        actions: [
-          IconButton(
-              icon: const Icon(
-                Icons.edit,
-                color: Colors.deepPurple,
-                size: 30.0,
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EditProfile();
-                }));
-              }),
-        ],
+        title: const Text('My Account'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // imageeeeeeeeeeee
             const SizedBox(height: 250),
-            Text(
+            const Text(
               '-Name',
               style: TextStyle(fontSize: 20.0, fontFamily: 'Montserrat'),
             ),
             const SizedBox(height: 10),
             Text(
               user.name,
-              style: TextStyle(fontSize: 20, height: 1.4),
+              style: const TextStyle(fontSize: 20, height: 1.4),
             ),
             const SizedBox(height: 30),
-            Text(
+            const Text(
               '-Email',
               style: TextStyle(fontSize: 20.0, fontFamily: 'Montserrat'),
             ),
             const SizedBox(height: 10),
             Text(
               user.email,
-              style: TextStyle(fontSize: 20, height: 1.4),
+              style: const TextStyle(fontSize: 20, height: 1.4),
             ),
-
             const SizedBox(height: 30),
-            Text(
+            const Text(
               '-Phone Number',
               style: TextStyle(fontSize: 20.0, fontFamily: 'Montserrat'),
             ),
             const SizedBox(height: 10),
             Text(
               user.number,
-              style: TextStyle(fontSize: 20, height: 1.4),
+              style: const TextStyle(fontSize: 20, height: 1.4),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.edit),
+          child: const Icon(Icons.edit),
           elevation: 1,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {

@@ -1,11 +1,10 @@
 //import 'dart:html';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-//import 'package:cross_file/cross_file.dart';
 import 'dart:async';
-import 'dart:io';
 
 class Product {
   late final int id = random.nextInt(100);
@@ -64,14 +63,14 @@ class Products with ChangeNotifier {
     required String category,
     required DateTime expDate,
     required String phoneNumber,
-    //required this.image,
   }) {
     productsList.add(Product(
+      // id: 1,
       description: description,
       title: title,
       phoneNumber: phoneNumber,
       quantity: quantity,
-      // expDate: expDate,
+      //expDate: expDate,
       //category: category,
       price: price,
       //image: image,
@@ -79,9 +78,10 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  /* Future getImages(ImageSource src) async {
+  Future getImage() async {
     final _picker = ImagePicker();
-    final pickedFile = await ImagePicker().getImage(source: src);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       image = File(pickedFile.path);
@@ -90,5 +90,5 @@ class Products with ChangeNotifier {
     } else {
       print('no image selected');
     }
-  }*/
+  }
 }

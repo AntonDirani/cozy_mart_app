@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
+import 'package:like_button/like_button.dart';
 
 class Body extends StatelessWidget {
   final Product? product;
@@ -99,7 +100,7 @@ class Body extends StatelessWidget {
                               ),
                             ),
                           ),
-                          ElevatedButton(
+                          /*ElevatedButton(
                             onPressed: () {},
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -107,10 +108,24 @@ class Body extends StatelessWidget {
                             ),
                             style:
                                 ElevatedButton.styleFrom(shape: CircleBorder()),
-                          )
+                          )*/
+                          const LikeButton(
+                            size: 40,
+                            likeCount: 0,
+                            bubblesColor: BubblesColor(
+                              dotPrimaryColor: Color(0xFFFF7EDF),
+                              dotSecondaryColor: Color(0xFFFBA6FF),
+                              dotThirdColor: Color(0xFFFF7EDF),
+                              dotLastColor: Color(0xFFFBA6FF),
+                            ),
+                            circleColor: CircleColor(
+                                start: Color(0xFFFBA6FF),
+                                end: Color(0xFFFF7EDF)),
+                          ),
                         ],
                       ),
                       SizedBox(height: 20 / 2),
+
                       //AddToCart(product: product)
                     ],
                   ),
