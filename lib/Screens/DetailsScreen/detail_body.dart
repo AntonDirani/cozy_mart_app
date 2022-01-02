@@ -1,3 +1,4 @@
+import 'package:cozy_mart_0/Screens/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
@@ -121,6 +122,19 @@ class Body extends StatelessWidget {
                             circleColor: CircleColor(
                                 start: Color(0xFFFBA6FF),
                                 end: Color(0xFFFF7EDF)),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add_comment,
+                              size: 40,
+                              color: Color(0xFFBE93D4),
+                            ),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Comment(),
+                              ),
+                            ),
                           ),
                         ],
                       ),

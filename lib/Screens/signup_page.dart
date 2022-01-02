@@ -94,6 +94,7 @@ class _SignupPageState extends State<SignupPage> {
                           keyboardType: TextInputType.number,
                           onChanged: (phone_number) {},
                           hint: 'Phone Number',
+                          prefixIcon: const Icon(Icons.call),
                         ),
                       ),
                       Padding(

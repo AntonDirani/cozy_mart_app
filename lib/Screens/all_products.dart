@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 import 'edit_profile.dart';
-import 'my_account.dart';
+import 'comment.dart';
 
 class AllProducts extends StatelessWidget {
   @override

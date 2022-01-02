@@ -25,7 +25,56 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController dateController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
-
+  /*createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Price'),
+            content: ListView(
+              children: [
+                TextFieldP(
+                  keyboardTypep: TextInputType.number,
+                  labelp: '  Price 1',
+                  controller: priceController,
+                  onChanged: (value) {},
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter Price ';
+                    }
+                    return null;
+                  },
+                ),
+                TextFieldP(
+                  keyboardTypep: TextInputType.number,
+                  labelp: '  Price 2',
+                  controller: priceController,
+                  onChanged: (value) {},
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter Price ';
+                    }
+                    return null;
+                  },
+                ),
+                TextFieldP(
+                  keyboardTypep: TextInputType.number,
+                  labelp: '  Price3',
+                  controller: priceController,
+                  onChanged: (value) {},
+                  validate: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter Price ';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+*/
   @override
   Widget build(BuildContext context) {
     //File image = Provider.of<Products>(context, listen: true).image;
@@ -75,48 +124,48 @@ class _AddProductState extends State<AddProduct> {
               ),
               TextFieldP(
                 keyboardTypep: TextInputType.number,
+                labelp: '  Price',
+                controller: priceController,
+                onChanged: (value) {},
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Price ';
+                  }
+                  return null;
+                },
+              ),
+              TextFieldP(
+                keyboardTypep: TextInputType.number,
+                labelp: '  Price',
+                controller: priceController,
+                onChanged: (value) {},
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Price ';
+                  }
+                  return null;
+                },
+              ),
+              TextFieldP(
+                keyboardTypep: TextInputType.number,
+                labelp: '  Price',
+                controller: priceController,
+                onChanged: (value) {},
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Price ';
+                  }
+                  return null;
+                },
+              ),
+              TextFieldP(
+                keyboardTypep: TextInputType.number,
                 labelp: '  Phone Number',
                 controller: phoneController,
                 onChanged: (value) {},
                 validate: (value) {
                   if (value!.isEmpty) {
                     return 'Enter Phone Number ';
-                  }
-                  return null;
-                },
-              ),
-              TextFieldP(
-                keyboardTypep: TextInputType.number,
-                labelp: '  Price',
-                controller: priceController,
-                onChanged: (value) {},
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Price ';
-                  }
-                  return null;
-                },
-              ),
-              TextFieldP(
-                keyboardTypep: TextInputType.number,
-                labelp: '  Price',
-                controller: priceController,
-                onChanged: (value) {},
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Price ';
-                  }
-                  return null;
-                },
-              ),
-              TextFieldP(
-                keyboardTypep: TextInputType.number,
-                labelp: '  Price',
-                controller: priceController,
-                onChanged: (value) {},
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Price ';
                   }
                   return null;
                 },
