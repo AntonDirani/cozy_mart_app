@@ -19,13 +19,17 @@ class DefButton extends StatelessWidget {
     this.bFontFamily = 'Montserrat',
   });
 
+  void bDestination({required Widget bDest, required BuildContext context}) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return bDest;
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return buttonDestination;
-        }));
+        bDestination(bDest: buttonDestination, context: context);
       },
       child: Text(
         buttonText,
