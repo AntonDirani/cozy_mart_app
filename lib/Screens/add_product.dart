@@ -16,65 +16,33 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  TextEditingController titleController = TextEditingController();
+  /*TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  */
   TextEditingController dateController = TextEditingController();
-
   var formKey = GlobalKey<FormState>();
-  /*createAlertDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Price'),
-            content: ListView(
-              children: [
-                TextFieldP(
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Price 1',
-                  controller: priceController,
-                  onChanged: (value) {},
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Price ';
-                    }
-                    return null;
-                  },
-                ),
-                TextFieldP(
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Price 2',
-                  controller: priceController,
-                  onChanged: (value) {},
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Price ';
-                    }
-                    return null;
-                  },
-                ),
-                TextFieldP(
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Price3',
-                  controller: priceController,
-                  onChanged: (value) {},
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Price ';
-                    }
-                    return null;
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+  var _editedProduct = Product.a(
+      id: 0, title: '', price: 0, description: '', phoneNumber: '', quantity: 0
+      //imageUrl: '',
+      );
+  void _saveForm() {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) {
+      print('ccc');
+      return;
+    }
+    print('cccd');
+    formKey.currentState!.save();
+    Provider.of<Products>(context, listen: false).addProduct(
+      product: _editedProduct,
+    );
+    print('cdddcd');
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     //File image = Provider.of<Products>(context, listen: true).image;
@@ -90,8 +58,16 @@ class _AddProductState extends State<AddProduct> {
             children: [
               TextFieldP(
                 labelp: '  Title',
-                controller: titleController,
-                onChanged: (value) {},
+                // controller: titleController,
+                onChanged: (value) {
+                  _editedProduct = Product.a(
+                      title: value,
+                      price: _editedProduct.price,
+                      description: _editedProduct.description,
+                      id: _editedProduct.id,
+                      phoneNumber: _editedProduct.phoneNumber,
+                      quantity: _editedProduct.quantity);
+                },
                 validate: (value) {
                   if (value!.isEmpty) {
                     return 'Enter  title ';
@@ -101,8 +77,16 @@ class _AddProductState extends State<AddProduct> {
               ),
               TextFieldP(
                 labelp: '  Description',
-                controller: descriptionController,
-                onChanged: (value) {},
+                // controller: descriptionController,
+                onChanged: (value) {
+                  _editedProduct = Product.a(
+                      title: _editedProduct.title,
+                      price: _editedProduct.price,
+                      description: value,
+                      id: _editedProduct.id,
+                      phoneNumber: _editedProduct.phoneNumber,
+                      quantity: _editedProduct.quantity);
+                },
                 validate: (value) {
                   if (value!.isEmpty) {
                     return 'Enter  Description';
@@ -113,8 +97,16 @@ class _AddProductState extends State<AddProduct> {
               TextFieldP(
                 keyboardTypep: TextInputType.number,
                 labelp: '  Quantity',
-                controller: quantityController,
-                onChanged: (value) {},
+                //controller: quantityController,
+                onChanged: (value) {
+                  _editedProduct = Product.a(
+                      title: _editedProduct.title,
+                      price: _editedProduct.price,
+                      description: _editedProduct.description,
+                      id: _editedProduct.id,
+                      phoneNumber: _editedProduct.phoneNumber,
+                      quantity: int.parse(value));
+                },
                 validate: (value) {
                   if (value!.isEmpty) {
                     return 'Enter Quantity ';
@@ -122,10 +114,30 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),
-              TextFieldP(
+              /*  TextFieldP(
                 keyboardTypep: TextInputType.number,
                 labelp: '  Price',
-                controller: priceController,
+                // controller: priceController,
+                onChanged: (value) {
+                  _editedProduct = Product.a(
+                      title: _editedProduct.title,
+                      price: double.parse(value),
+                      description: _editedProduct.description,
+                      id: _editedProduct.id,
+                      phoneNumber: _editedProduct.phoneNumber,
+                      quantity: _editedProduct.quantity);
+                },
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Price ';
+                  }
+                  return null;
+                },
+              ),*/
+              /*TextFieldP(
+                keyboardTypep: TextInputType.number,
+                labelp: '  Price',
+                //controller: priceController,
                 onChanged: (value) {},
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -134,22 +146,12 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),
+
+               */
               TextFieldP(
-                keyboardTypep: TextInputType.number,
+                //keyboardTypep: TextInputType.number,
                 labelp: '  Price',
-                controller: priceController,
-                onChanged: (value) {},
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Price ';
-                  }
-                  return null;
-                },
-              ),
-              TextFieldP(
-                keyboardTypep: TextInputType.number,
-                labelp: '  Price',
-                controller: priceController,
+                //controller: priceController,
                 onChanged: (value) {},
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -161,7 +163,7 @@ class _AddProductState extends State<AddProduct> {
               TextFieldP(
                 keyboardTypep: TextInputType.number,
                 labelp: '  Phone Number',
-                controller: phoneController,
+                // controller: phoneController,
                 onChanged: (value) {},
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -170,9 +172,11 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: dateController,
-                onChanged: (value) {},
+              /*TextFormField(
+                //controller: dateController,
+                onChanged: (value) {
+
+                },
                 decoration: const InputDecoration(
                   labelText: '  Expiration Date ',
                   suffixIcon: Icon(Icons.calendar_today),
@@ -192,16 +196,14 @@ class _AddProductState extends State<AddProduct> {
                       lastDate: DateTime(2101));
 
                   if (pickedDate != null) {
-                    print(pickedDate);
                     String formattedDate =
                         DateFormat('yyyy-MM-dd').format(pickedDate);
-                    print(formattedDate);
                     setState(() {
                       dateController.text = formattedDate;
                     });
                   }
                 },
-              ),
+              ),*/
               ListTile(
                 title: const Text(
                   'Category :',
@@ -249,7 +251,7 @@ class _AddProductState extends State<AddProduct> {
               Consumer(
                 builder: (ctx, value, _) => ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white30,
+                      primary: Colors.deepPurple,
                       //shadowColor: Colors.purple,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
@@ -257,7 +259,6 @@ class _AddProductState extends State<AddProduct> {
                     child: const Text(
                       'Add Product',
                       style: TextStyle(
-                        color: Colors.black,
                         //fontSize: 25.0,
                         fontFamily: 'Montserrat',
                       ),
@@ -265,23 +266,10 @@ class _AddProductState extends State<AddProduct> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
+                          const SnackBar(content: Text('Added')),
                         );
                       }
-                      /* else {
-
-                          value.add(
-                            title: titleController.text,
-                            description: descriptionController.text,
-                            phoneNumber: phoneController.text,
-                            quantity: quantityController.text,
-                            expDate: dateController.text,
-                            category: categoryController.text,
-                            price: priceController.text,
-                          );
-
-
-                      }*/
+                      _saveForm();
                     }),
               ),
             ],
@@ -323,6 +311,6 @@ class _AddProductState extends State<AddProduct> {
     if (image == null) return;
     final imageT = File(Image!.path);
 
-    setState(() => this.image = imageT);
+    setState(() => image = imageT);
   }
 }

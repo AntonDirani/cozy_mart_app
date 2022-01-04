@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
-class Product {
-  late final int id = random.nextInt(100);
+class Product extends ChangeNotifier {
+  late final int id;
   late final String title;
   late final int quantity;
   late final String phoneNumber;
@@ -15,16 +15,19 @@ class Product {
   //late final File image; //File
   late final DateTime expDate;
   late final String category;
-  late double price; //Price
+  late final double price; //Price
 
   Random random = Random();
 
-  Product({
+  Product();
+
+  Product.a({
+    required this.id,
     required this.description,
     required this.title,
     required this.phoneNumber,
     required this.quantity,
-    //required this.expDate,
+    // required this.expDate,
     //required this.category,
     required this.price,
     // required this.image,
@@ -44,41 +47,53 @@ class Price {
 
 class Products with ChangeNotifier {
   List<Product> productsList = [
-    Product(
+    Product.a(
+        id: 0,
         title: 'Shirt',
         phoneNumber: '0936189449',
         quantity: 7,
         price: 50.0,
         description:
-            'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.'),
+            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
+    Product.a(
+        id: 1,
+        title: 'Shirt',
+        phoneNumber: '0936189449',
+        quantity: 7,
+        price: 50.0,
+        description:
+            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
+    Product.a(
+        id: 2,
+        title: 'tshirt',
+        phoneNumber: '0936189449',
+        quantity: 7,
+        price: 50.0,
+        description:
+            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
   ];
 
   late File image;
 
-  void addProduct({
-    required String description,
-    required String title,
-    required double price, //Price
-    required int quantity,
-    required String category,
-    required DateTime expDate,
-    required String phoneNumber,
-  }) {
-    productsList.add(Product(
-      // id: 1,
-      description: description,
-      title: title,
-      phoneNumber: phoneNumber,
-      quantity: quantity,
+  void addProduct({required Product product}) {
+    final newProduct = Product.a(
+      id: 50,
+      description: product.description,
+      title: product.title,
+      phoneNumber: product.phoneNumber,
+      quantity: product.quantity,
       //expDate: expDate,
       //category: category,
-      price: price,
+      price: product.price,
       //image: image,
-    ));
+    );
+    productsList.add(newProduct);
+    print(productsList.length);
+    print(productsList[3].title);
     notifyListeners();
   }
 
-  Future getImage() async {
+  /*Future getImage() async {
     final _picker = ImagePicker();
     final pickedFile =
         await ImagePicker().getImage(source: ImageSource.gallery);
@@ -90,5 +105,5 @@ class Products with ChangeNotifier {
     } else {
       print('no image selected');
     }
-  }
+  }*/
 }

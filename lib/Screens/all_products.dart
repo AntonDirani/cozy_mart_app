@@ -9,13 +9,18 @@ import 'add_product.dart';
 import 'edit_profile.dart';
 import 'comment.dart';
 
-class AllProducts extends StatelessWidget {
+class AllProducts extends StatefulWidget {
+  @override
+  State<AllProducts> createState() => _AllProductsState();
+}
+
+class _AllProductsState extends State<AllProducts> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.myUser;
-    return ChangeNotifierProvider<Products>(
+    const user = UserPreferences.myUser;
+    return ChangeNotifierProvider<Product>(
       create: (BuildContext context) {
-        return Products();
+        return Product();
       },
       child: Scaffold(
         drawer: Drawer(
@@ -37,6 +42,16 @@ class AllProducts extends StatelessWidget {
                     builder: (context) => EditProfile(),
                   ),
                 ),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyProducts(),
+                      ))
+                },
+                title: Text('My Products'),
               ),
             ],
           ),
@@ -72,10 +87,22 @@ class AllProducts extends StatelessWidget {
   }
 }
 
-class Body extends StatelessWidget {
+class MyProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List prodList = Provider.of<Products>(context).productsList;
+    return Scaffold();
+  }
+}
+
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
+  Widget build(BuildContext context) {
+    List prodList = Provider.of<Products>(context, listen: true).productsList;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -93,32 +120,32 @@ class Body extends StatelessWidget {
           Categories(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: prodList.isEmpty
-                  ? const Center(
-                      child: Text('There is no products'),
-                    )
-                  : GridView.builder(
-                      itemCount: prodList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 20.0,
-                        crossAxisSpacing: 20.0,
-                        childAspectRatio: 0.75,
-                      ),
-                      itemBuilder: (context, index) => ItemCard(
-                            product: prodList[index],
-                            press: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return DetailsScreen(
-                                  product: prodList[index],
-                                );
-                              }));
-                            },
-                          )),
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: prodList.isEmpty
+                    ? const Center(
+                        child: Text('There is no products'),
+                      )
+                    : GridView.builder(
+                        itemCount: prodList.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20.0,
+                          crossAxisSpacing: 20.0,
+                          childAspectRatio: 0.75,
+                        ),
+                        itemBuilder: (ctx, i) => ItemCard(
+                          product: prodList[i],
+                          press: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailsScreen(
+                                product: prodList[i],
+                              );
+                            }));
+                          },
+                        ),
+                      )),
           ),
         ],
       ),
@@ -214,7 +241,7 @@ class ItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
-                tag: "${product.id}",
+                tag: product.id,
                 child: Image.network(
                     'https://i.pinimg.com/originals/4e/be/50/4ebe50e2495b17a79c31e48a0e54883f.png'),
               ),
