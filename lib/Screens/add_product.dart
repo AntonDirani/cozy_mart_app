@@ -10,14 +10,12 @@ import 'all_products.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
-
+  static const routeName = '/add-product';
   @override
   State<AddProduct> createState() => _AddProductState();
 }
 
 class _AddProductState extends State<AddProduct> {
-
-
   /*TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
@@ -28,21 +26,68 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController dateController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   var _editedProduct = Product.a(
-      id: 0, title: '', price: 0, description: '', phoneNumber: '', quantity: 0
+      id: null,
+      title: '',
+      price: 0,
+      description: '',
+      phoneNumber: '',
+      quantity: 0
       //imageUrl: '',
       );
+  var _isInside = true;
+  var _defValues = {
+    'title': '',
+    'description': '',
+    'quantity': '',
+    'price': '',
+    'phoneNumber': '',
+  };
+  @override
+  void didChangeDependencies() {
+    if (_isInside) {
+      final productId = ModalRoute.of(context)!.settings.arguments;
+      if (productId != null) {
+        _editedProduct = Provider.of<Products>(context, listen: false)
+            .findById(productId.toString());
+        _defValues = {
+          'title': _editedProduct.title,
+          'description': _editedProduct.description,
+          'quantity': _editedProduct.quantity.toString(),
+          'price': _editedProduct.price.toString(),
+          'phoneNumber': _editedProduct.phoneNumber.toString(),
+        };
+      }
+    }
+    _isInside = false;
+    super.didChangeDependencies();
+  }
+
   void _saveForm() {
     final isValid = formKey.currentState!.validate();
     if (!isValid) {
-      print('ccc');
       return;
+    } else {
+      formKey.currentState!.save();
+      if (_editedProduct.id != null) {
+        Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct.id, _editedProduct);
+      } else {
+        print('c');
+        Provider.of<Products>(context, listen: false).addProduct(
+          product: _editedProduct,
+        );
+        print('s');
+        if (formKey.currentState!.validate()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Added'),
+              duration: Duration(milliseconds: 500),
+            ),
+          );
+        }
+      }
+      Navigator.of(context).pop();
     }
-    print('cccd');
-    formKey.currentState!.save();
-    Provider.of<Products>(context, listen: false).addProduct(
-      product: _editedProduct,
-    );
-    print('cdddcd');
   }
 
   @override
@@ -59,6 +104,7 @@ class _AddProductState extends State<AddProduct> {
           child: ListView(
             children: [
               TextFieldP(
+                initial: _defValues['title'],
                 labelp: '  Title',
                 // controller: titleController,
                 onChanged: (value) {
@@ -78,6 +124,7 @@ class _AddProductState extends State<AddProduct> {
                 },
               ),
               TextFieldP(
+                initial: _defValues['description'],
                 labelp: '  Description',
                 // controller: descriptionController,
                 onChanged: (value) {
@@ -97,6 +144,7 @@ class _AddProductState extends State<AddProduct> {
                 },
               ),
               TextFieldP(
+                initial: _defValues['quantity'],
                 keyboardTypep: TextInputType.number,
                 labelp: '  Quantity',
                 //controller: quantityController,
@@ -116,7 +164,8 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),
-              /*  TextFieldP(
+              TextFieldP(
+                initial: _defValues['price'],
                 keyboardTypep: TextInputType.number,
                 labelp: '  Price',
                 // controller: priceController,
@@ -135,7 +184,7 @@ class _AddProductState extends State<AddProduct> {
                   }
                   return null;
                 },
-              ),*/
+              ),
               /*TextFieldP(
                 keyboardTypep: TextInputType.number,
                 labelp: '  Price',
@@ -150,7 +199,7 @@ class _AddProductState extends State<AddProduct> {
               ),
 
                */
-              TextFieldP(
+              /*TextFieldP(
                 //keyboardTypep: TextInputType.number,
                 labelp: '  Price',
                 //controller: priceController,
@@ -161,12 +210,21 @@ class _AddProductState extends State<AddProduct> {
                   }
                   return null;
                 },
-              ),
+              ),*/
               TextFieldP(
+                initial: _defValues['phoneNumber'],
                 keyboardTypep: TextInputType.number,
                 labelp: '  Phone Number',
                 // controller: phoneController,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  _editedProduct = Product.a(
+                      title: _editedProduct.title,
+                      price: _editedProduct.price,
+                      description: _editedProduct.description,
+                      id: _editedProduct.id,
+                      phoneNumber: value,
+                      quantity: _editedProduct.quantity);
+                },
                 validate: (value) {
                   if (value!.isEmpty) {
                     return 'Enter Phone Number ';
@@ -266,11 +324,6 @@ class _AddProductState extends State<AddProduct> {
                       ),
                     ),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Added')),
-                        );
-                      }
                       _saveForm();
                     }),
               ),

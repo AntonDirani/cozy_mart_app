@@ -69,8 +69,10 @@ class TextFieldP extends StatelessWidget {
   final String? text;
   final String? Function(String?)? validate;
   final Function(String)? onChanged;
+  final String? initial;
 
   const TextFieldP({
+    this.initial,
     this.labelp,
     this.hintp,
     this.prefixIconp,
@@ -84,6 +86,7 @@ class TextFieldP extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initial,
       validator: validate,
       onChanged: onChanged,
       keyboardType: keyboardTypep,

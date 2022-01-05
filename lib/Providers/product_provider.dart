@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 class Product extends ChangeNotifier {
-  late final int id;
+  late final String? id;
   late final String title;
   late final int quantity;
   late final String phoneNumber;
@@ -46,38 +46,17 @@ class Price {
 }
 
 class Products with ChangeNotifier {
-  List<Product> productsList = [
-    Product.a(
-        id: 0,
-        title: 'Shirt',
-        phoneNumber: '0936189449',
-        quantity: 7,
-        price: 50.0,
-        description:
-            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
-    Product.a(
-        id: 1,
-        title: 'Shirt',
-        phoneNumber: '0936189449',
-        quantity: 7,
-        price: 50.0,
-        description:
-            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
-    Product.a(
-        id: 2,
-        title: 'tshirt',
-        phoneNumber: '0936189449',
-        quantity: 7,
-        price: 50.0,
-        description:
-            'The standa33 from "de Finibus Bonorir exash versiotion by H. Rackham.'),
-  ];
+  List<Product> productsList = [];
 
   late File image;
 
+  Product findById(String id) {
+    return productsList.firstWhere((prod) => prod.id == id);
+  }
+
   void addProduct({required Product product}) {
     final newProduct = Product.a(
-      id: 50,
+      id: DateTime.now().toString(),
       description: product.description,
       title: product.title,
       phoneNumber: product.phoneNumber,
@@ -91,6 +70,14 @@ class Products with ChangeNotifier {
     print(productsList.length);
     print(productsList[3].title);
     notifyListeners();
+  }
+
+  void updateProduct(String? id, Product newProduct) {
+    final prodIndex = productsList.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      productsList[prodIndex] = newProduct;
+      notifyListeners();
+    }
   }
 
   /*Future getImage() async {

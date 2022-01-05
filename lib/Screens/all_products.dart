@@ -1,4 +1,5 @@
 import 'package:cozy_mart_0/Screens/edit_profile.dart';
+import 'package:cozy_mart_0/Screens/user_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
@@ -23,38 +24,8 @@ class _AllProductsState extends State<AllProducts> {
         return Product();
       },
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            //padding: const EdgeInsetsDirectional.all(1),
-            children: [
-              UserAccountsDrawerHeader(
-                accountName: Text(
-                  user.name,
-                  style: const TextStyle(fontSize: 16, height: 1.6),
-                ),
-                accountEmail: Text(
-                  user.email,
-                  style: const TextStyle(fontSize: 16, height: 1.6),
-                ),
-                onDetailsPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfile(),
-                  ),
-                ),
-              ),
-              ListTile(
-                onTap: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyProducts(),
-                      ))
-                },
-                title: Text('My Products'),
-              ),
-            ],
-          ),
+        drawer: AppDrawer(
+          user: user,
         ),
         appBar: customAppBar(),
         body: Body(),
@@ -87,10 +58,49 @@ class _AllProductsState extends State<AllProducts> {
   }
 }
 
-class MyProducts extends StatelessWidget {
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final User user;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Drawer(
+      child: ListView(
+        //padding: const EdgeInsetsDirectional.all(1),
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text(
+              user.name,
+              style: const TextStyle(fontSize: 16, height: 1.6),
+            ),
+            accountEmail: Text(
+              user.email,
+              style: const TextStyle(fontSize: 16, height: 1.6),
+            ),
+            onDetailsPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditProfile(),
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserProductsScreen(user: user),
+                  ))
+            },
+            title: Text('My Products'),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -241,7 +251,7 @@ class ItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
-                tag: product.id,
+                tag: {product.id},
                 child: Image.network(
                     'https://i.pinimg.com/originals/4e/be/50/4ebe50e2495b17a79c31e48a0e54883f.png'),
               ),

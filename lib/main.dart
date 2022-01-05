@@ -1,12 +1,11 @@
 import 'package:cozy_mart_0/Providers/favorites_provider.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
+import 'package:cozy_mart_0/Screens/add_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/welcome_page.dart';
 import 'Providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cozy_mart_0/Providers/favorites_provider.dart';
-import 'package:cozy_mart_0/Providers/product_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +42,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: WelcomePage(),
         theme: value.getTheme(),
+        routes: {AddProduct.routeName: (ctx) => const AddProduct()},
       );
     });
   }
