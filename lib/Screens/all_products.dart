@@ -3,12 +3,10 @@ import 'package:cozy_mart_0/Screens/user_products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 import 'edit_profile.dart';
-import 'comment.dart';
 
 class AllProducts extends StatefulWidget {
   @override
@@ -87,6 +85,16 @@ class AppDrawer extends StatelessWidget {
                 builder: (context) => EditProfile(),
               ),
             ),
+          ),
+          ListTile(
+            onTap: () => {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AllProducts(),
+                  ))
+            },
+            title: Text('All Products'),
           ),
           ListTile(
             onTap: () => {
@@ -252,8 +260,9 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: {product.id},
-                child: Image.network(
-                    'https://i.pinimg.com/originals/4e/be/50/4ebe50e2495b17a79c31e48a0e54883f.png'),
+                child: product.image != null
+                    ? Image.file(product.image!)
+                    : Text('No Image'),
               ),
             ),
           ),

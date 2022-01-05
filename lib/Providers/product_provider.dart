@@ -2,9 +2,6 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'dart:async';
 
 class Product extends ChangeNotifier {
   late final String? id;
@@ -12,7 +9,7 @@ class Product extends ChangeNotifier {
   late final int quantity;
   late final String phoneNumber;
   late final String description;
-  //late final File image; //File
+  File? image; //File
   late final DateTime expDate;
   late final String category;
   late final double price; //Price
@@ -30,7 +27,7 @@ class Product extends ChangeNotifier {
     // required this.expDate,
     //required this.category,
     required this.price,
-    // required this.image,
+    required this.image,
   });
 }
 
@@ -48,7 +45,7 @@ class Price {
 class Products with ChangeNotifier {
   List<Product> productsList = [];
 
-  late File image;
+  // late File image;
 
   Product findById(String id) {
     return productsList.firstWhere((prod) => prod.id == id);
@@ -64,11 +61,9 @@ class Products with ChangeNotifier {
       //expDate: expDate,
       //category: category,
       price: product.price,
-      //image: image,
+      image: product.image,
     );
     productsList.add(newProduct);
-    print(productsList.length);
-    print(productsList[3].title);
     notifyListeners();
   }
 
