@@ -1,6 +1,7 @@
 import 'package:cozy_mart_0/Components/text_field.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +27,14 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController dateController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   var _editedProduct = Product.a(
-      id: null,
-      title: '',
-      price: 0,
-      description: '',
-      phoneNumber: '',
-      quantity: 0
-      //imageUrl: '',
-      );
+    id: null,
+    title: '',
+    price: 0,
+    description: '',
+    phoneNumber: '',
+    quantity: 0,
+    image: null,
+  );
   var _isInside = true;
   var _defValues = {
     'title': '',
@@ -68,6 +69,8 @@ class _AddProductState extends State<AddProduct> {
       return;
     } else {
       formKey.currentState!.save();
+      _editedProduct.image = image1;
+      print('b');
       if (_editedProduct.id != null) {
         Provider.of<Products>(context, listen: false)
             .updateProduct(_editedProduct.id, _editedProduct);
@@ -76,6 +79,7 @@ class _AddProductState extends State<AddProduct> {
         Provider.of<Products>(context, listen: false).addProduct(
           product: _editedProduct,
         );
+
         print('s');
         if (formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -114,7 +118,8 @@ class _AddProductState extends State<AddProduct> {
                       description: _editedProduct.description,
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
-                      quantity: _editedProduct.quantity);
+                      quantity: _editedProduct.quantity,
+                      image: _editedProduct.image);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -134,7 +139,8 @@ class _AddProductState extends State<AddProduct> {
                       description: value,
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
-                      quantity: _editedProduct.quantity);
+                      quantity: _editedProduct.quantity,
+                      image: _editedProduct.image);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -155,7 +161,8 @@ class _AddProductState extends State<AddProduct> {
                       description: _editedProduct.description,
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
-                      quantity: int.parse(value));
+                      quantity: int.parse(value),
+                      image: _editedProduct.image);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -176,7 +183,8 @@ class _AddProductState extends State<AddProduct> {
                       description: _editedProduct.description,
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
-                      quantity: _editedProduct.quantity);
+                      quantity: _editedProduct.quantity,
+                      image: _editedProduct.image);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -223,7 +231,8 @@ class _AddProductState extends State<AddProduct> {
                       description: _editedProduct.description,
                       id: _editedProduct.id,
                       phoneNumber: value,
-                      quantity: _editedProduct.quantity);
+                      quantity: _editedProduct.quantity,
+                      image: _editedProduct.image);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -232,11 +241,9 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),
-              /*TextFormField(
-                //controller: dateController,
-                onChanged: (value) {
-
-                },
+              TextFormField(
+                controller: dateController,
+                onChanged: (value) {},
                 decoration: const InputDecoration(
                   labelText: '  Expiration Date ',
                   suffixIcon: Icon(Icons.calendar_today),
@@ -252,7 +259,7 @@ class _AddProductState extends State<AddProduct> {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2020),
+                      firstDate: DateTime.now(),
                       lastDate: DateTime(2101));
 
                   if (pickedDate != null) {
@@ -263,7 +270,7 @@ class _AddProductState extends State<AddProduct> {
                     });
                   }
                 },
-              ),*/
+              ),
               ListTile(
                 title: const Text(
                   'Category :',
@@ -312,7 +319,6 @@ class _AddProductState extends State<AddProduct> {
                 builder: (ctx, value, _) => ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.deepPurple,
-                      //shadowColor: Colors.purple,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                     ),
@@ -358,14 +364,18 @@ class _AddProductState extends State<AddProduct> {
       .toList();
   String _btn1SelectedVal = 'category1';
 
-  //delete when use provider
-  File? image;
+  File? image1;
   final picker = ImagePicker();
   Future pickImage() async {
-    final Image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    final imageT = File(Image!.path);
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image1 == null) {
+        final imageT = File(image!.path);
 
-    setState(() => image = imageT);
+        setState(() => image1 = imageT);
+      }
+    } on PlatformException catch (e) {
+      //print('Failed to pick image ');
+    }
   }
 }

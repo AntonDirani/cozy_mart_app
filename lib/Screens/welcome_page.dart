@@ -26,44 +26,46 @@ class WelcomePage extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 60.0,
-                  ),
-                  Image.asset(
-                    'images/Logo.png',
-                    height: 150,
-                    width: 150,
-                  ),
-                  const SizedBox(
-                    height: 50.0,
-                  ),
-                  const Text(
-                    'Welcome!',
-                    style: TextStyle(
-                        // color: Colors.black,
-                        fontSize: 55.0,
-                        fontFamily: 'Montserrat'),
-                  ),
-                  const SizedBox(
-                    height: 50.0,
-                  ),
-                  DefButton(
-                      buttonText: 'Log In', buttonDestination: LoginPage()),
-                  const SizedBox(
-                    height: 25.0,
-                  ),
-                  DefButton(
-                    buttonText: 'Sign Up',
-                    buttonDestination: SignupPage(),
-                  ),
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 60.0,
+                    ),
+                    Image.asset(
+                      'images/Logo.png',
+                      height: 150,
+                      width: 150,
+                    ),
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    const Text(
+                      'Welcome!',
+                      style: TextStyle(
+                          // color: Colors.black,
+                          fontSize: 55.0,
+                          fontFamily: 'Montserrat'),
+                    ),
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    DefButton(
+                        buttonText: 'Log In', buttonDestination: LoginPage()),
+                    const SizedBox(
+                      height: 25.0,
+                    ),
+                    DefButton(
+                      buttonText: 'Sign Up',
+                      buttonDestination: SignupPage(),
+                    ),
 
-                  // const SizedBox(
-                  //  height: 30.0,
-                  // ),
-                ],
+                    // const SizedBox(
+                    //  height: 30.0,
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),
