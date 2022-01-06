@@ -11,7 +11,7 @@ class Product extends ChangeNotifier {
   late final String description;
   File? image; //File
   late final DateTime expDate;
-  late final String category;
+  String? category = 'category1';
   late final double price; //Price
 
   Random random = Random();
@@ -24,8 +24,8 @@ class Product extends ChangeNotifier {
     required this.title,
     required this.phoneNumber,
     required this.quantity,
-    // required this.expDate,
-    //required this.category,
+    required this.expDate,
+    this.category,
     required this.price,
     required this.image,
   });
@@ -58,8 +58,8 @@ class Products with ChangeNotifier {
       title: product.title,
       phoneNumber: product.phoneNumber,
       quantity: product.quantity,
-      //expDate: expDate,
-      //category: category,
+      expDate: product.expDate,
+      category: product.category,
       price: product.price,
       image: product.image,
     );

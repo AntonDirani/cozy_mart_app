@@ -27,14 +27,15 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController dateController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   var _editedProduct = Product.a(
-    id: null,
-    title: '',
-    price: 0,
-    description: '',
-    phoneNumber: '',
-    quantity: 0,
-    image: null,
-  );
+      id: null,
+      title: '',
+      price: 0,
+      description: '',
+      phoneNumber: '',
+      quantity: 0,
+      image: null,
+      expDate: DateTime.now(),
+      category: 'category1');
   var _isInside = true;
   var _defValues = {
     'title': '',
@@ -42,7 +43,10 @@ class _AddProductState extends State<AddProduct> {
     'quantity': '',
     'price': '',
     'phoneNumber': '',
+    'expDate': '',
+    'category': ''
   };
+
   @override
   void didChangeDependencies() {
     if (_isInside) {
@@ -56,7 +60,11 @@ class _AddProductState extends State<AddProduct> {
           'quantity': _editedProduct.quantity.toString(),
           'price': _editedProduct.price.toString(),
           'phoneNumber': _editedProduct.phoneNumber.toString(),
+          'expDate': '',
+          'category': ''
         };
+        dateController.text =
+            DateFormat('yyyy-MM-dd').format(_editedProduct.expDate);
       }
     }
     _isInside = false;
@@ -70,6 +78,7 @@ class _AddProductState extends State<AddProduct> {
     } else {
       formKey.currentState!.save();
       _editedProduct.image = image1;
+      // _editedProduct.expDate = dateController;
       print('b');
       if (_editedProduct.id != null) {
         Provider.of<Products>(context, listen: false)
@@ -91,6 +100,7 @@ class _AddProductState extends State<AddProduct> {
         }
       }
       Navigator.of(context).pop();
+      print(_editedProduct.category);
     }
   }
 
@@ -119,7 +129,8 @@ class _AddProductState extends State<AddProduct> {
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
                       quantity: _editedProduct.quantity,
-                      image: _editedProduct.image);
+                      image: _editedProduct.image,
+                      expDate: _editedProduct.expDate);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -140,7 +151,8 @@ class _AddProductState extends State<AddProduct> {
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
                       quantity: _editedProduct.quantity,
-                      image: _editedProduct.image);
+                      image: _editedProduct.image,
+                      expDate: _editedProduct.expDate);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -162,7 +174,8 @@ class _AddProductState extends State<AddProduct> {
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
                       quantity: int.parse(value),
-                      image: _editedProduct.image);
+                      image: _editedProduct.image,
+                      expDate: _editedProduct.expDate);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -184,7 +197,8 @@ class _AddProductState extends State<AddProduct> {
                       id: _editedProduct.id,
                       phoneNumber: _editedProduct.phoneNumber,
                       quantity: _editedProduct.quantity,
-                      image: _editedProduct.image);
+                      image: _editedProduct.image,
+                      expDate: _editedProduct.expDate);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -232,7 +246,8 @@ class _AddProductState extends State<AddProduct> {
                       id: _editedProduct.id,
                       phoneNumber: value,
                       quantity: _editedProduct.quantity,
-                      image: _editedProduct.image);
+                      image: _editedProduct.image,
+                      expDate: _editedProduct.expDate);
                 },
                 validate: (value) {
                   if (value!.isEmpty) {
@@ -279,11 +294,12 @@ class _AddProductState extends State<AddProduct> {
                   ),
                 ),
                 trailing: DropdownButton<String>(
-                  value: _btn1SelectedVal,
+                  hint: Text('Click'),
+                  value: _editedProduct.category,
                   onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      setState(() => _btn1SelectedVal = newValue);
-                    }
+                    setState(() {
+                      _editedProduct.category = newValue;
+                    });
                   },
                   items: _dropDownMenuItems,
                 ),
@@ -362,10 +378,10 @@ class _AddProductState extends State<AddProduct> {
         ),
       )
       .toList();
-  String _btn1SelectedVal = 'category1';
 
   File? image1;
   final picker = ImagePicker();
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);

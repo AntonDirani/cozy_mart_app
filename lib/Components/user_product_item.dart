@@ -1,3 +1,5 @@
+//import 'dart:html';
+import 'dart:io';
 import 'package:cozy_mart_0/Screens/add_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,9 +9,9 @@ import 'package:cozy_mart_0/Providers/product_provider.dart';
 class UserProductItem extends StatelessWidget {
   final String? id;
   final String title;
-  final String imageUrl;
+  final File? image;
 
-  UserProductItem(this.id, this.title, this.imageUrl);
+  UserProductItem({required this.id, required this.title, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class UserProductItem extends StatelessWidget {
     return ListTile(
       title: Text(title),
       leading: Container(
-        child: Image.network(imageUrl),
+        child: image != null ? Image.file(image!) : Text('No Image'),
       ),
       trailing: Container(
         width: 100,
