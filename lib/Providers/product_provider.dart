@@ -14,7 +14,6 @@ class Product extends ChangeNotifier {
   String? category = 'category1';
   late final double price; //Price
 
-  Random random = Random();
 
   Product();
 
