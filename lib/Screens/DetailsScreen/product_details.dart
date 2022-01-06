@@ -9,7 +9,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFBE93D4),
+      backgroundColor: Colors.deepPurple,
       appBar: buildAppBar(context),
       body: Body(product: product),
     );
@@ -17,11 +17,13 @@ class DetailsScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.white),
+      //actionsIconTheme: IconThemeData(color: Colors.white),
       title: Text(
         product!.title,
-        style: TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: 30, color: Colors.white),
       ),
-      backgroundColor: const Color(0xFFBE93D4),
+      backgroundColor: Colors.deepPurple,
     );
   }
 }
