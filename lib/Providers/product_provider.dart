@@ -1,8 +1,9 @@
 //import 'dart:html';
 import 'dart:io';
 import 'dart:math';
-import 'package:cozy_mart_0/main.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Product extends ChangeNotifier {
   late final String? id;
@@ -51,19 +52,31 @@ class Products with ChangeNotifier {
   }
 
   void addProduct({required Product product}) {
-    final newProduct = Product.a(
-      id: DateTime.now().toString(),
-      description: product.description,
-      title: product.title,
-      phoneNumber: product.phoneNumber,
-      quantity: product.quantity,
-      expDate: product.expDate,
-      category: product.category,
-      price: product.price,
-      image: product.image,
-    );
-    productsList.add(newProduct);
-    notifyListeners();
+    var productURL = 'http://192.168.43.228:8000/api/product';
+    Dio().post(productURL, data: {
+      "User_id": 3,
+      "product_name": "iiiii4",
+      "product_type": "kr",
+      "product_quantity": 50,
+      "product_expire_date": "2022/12/22",
+      "product_price": 20,
+      "product_desc": "productdescription"
+    }).then((response) {
+      print(response.data);
+      final newProduct = Product.a(
+        id: DateTime.now().toString(),
+        description: product.description,
+        title: product.title,
+        phoneNumber: product.phoneNumber,
+        quantity: product.quantity,
+        expDate: product.expDate,
+        category: product.category,
+        price: product.price,
+        image: product.image,
+      );
+      productsList.add(newProduct);
+      notifyListeners();
+    });
   }
 
   void updateProduct(String? id, Product newProduct) {
@@ -74,17 +87,8 @@ class Products with ChangeNotifier {
     }
   }
 
-  /*Future getImage() async {
-    final _picker = ImagePicker();
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      image = File(pickedFile.path);
-      notifyListeners();
-      print('image selected');
-    } else {
-      print('no image selected');
-    }
-  }*/
+  void deleteProduct(String id) {
+    productsList.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 }

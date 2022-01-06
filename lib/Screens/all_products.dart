@@ -44,7 +44,9 @@ class _AllProductsState extends State<AllProducts> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
-          onPressed: () {},
+          onPressed: () {
+            showSearch(context: context, delegate: CustomSearch());
+          },
         ),
         IconButton(
           icon: Icon(CupertinoIcons.cart),
@@ -52,6 +54,67 @@ class _AllProductsState extends State<AllProducts> {
         ),
         SizedBox(width: 10.0)
       ],
+    );
+  }
+}
+
+class CustomSearch extends SearchDelegate {
+  List<String> allData = ['USA', 'Russia', 'Syria'];
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: const Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var item in allData) {
+      if (item.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      }
+    }
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+      itemCount: matchQuery.length,
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var item in allData) {
+      if (item.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      }
+    }
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+      itemCount: matchQuery.length,
     );
   }
 }
@@ -255,7 +318,7 @@ class ItemCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
-                color: const Color(0xFFBE93D4),
+                color: Colors.deepPurple,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
