@@ -1,6 +1,7 @@
 //import 'dart:html';
 import 'dart:io';
 import 'dart:math';
+import 'package:cozy_mart_0/main.dart';
 import 'package:flutter/material.dart';
 
 class Product extends ChangeNotifier {
@@ -13,8 +14,6 @@ class Product extends ChangeNotifier {
   late final DateTime expDate;
   String? category = 'category1';
   late final double price; //Price
-
-  Random random = Random();
 
   Product();
 

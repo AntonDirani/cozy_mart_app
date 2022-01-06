@@ -1,19 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:comment_box/comment/comment.dart';
 
-class Comment extends StatefulWidget {
-  const Comment({Key? key}) : super(key: key);
+class MyComment extends StatefulWidget {
+  const MyComment({Key? key}) : super(key: key);
 
   @override
-  State<Comment> createState() => _CommentState();
+  State<MyComment> createState() => _MyCommentState();
 }
 
-class _CommentState extends State<Comment> {
+class _MyCommentState extends State<MyComment> {
+  TextEditingController commentController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  List filedata = [
+    {'name': 'maya', 'message': 'mmmmmmmmmm'},
+    {'name': 'toni', 'message': 'tttttttt'},
+  ];
+
+  Widget commentChild() {
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        //physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets
+                .zero, //const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
+            child: ListTile(
+              // leading: GestureDetector(
+              //   onTap: () async {
+              //     // Display the image in large form.
+              //     print("Comment Clicked");
+              //   },
+              // ),
+              title: Text(
+                filedata[index]['name'],
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(filedata[index]['message']),
+            ),
+          );
+        },
+        itemCount: filedata.length,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Comment Page"),
+    return Container(
+      height: 400,
+      margin: EdgeInsets.only(top: 8),
+      padding: EdgeInsets.all(8),
+      child: Column(
+        children: [
+          commentChild(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: commentController,
+                      decoration: const InputDecoration(
+                        label: Text('write comment'),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          filedata.add({
+                            "name": "mayaaaa",
+                            "message": "${commentController.text}"
+                          });
+                          commentController.text = "";
+                        });
+                      },
+                      icon: Icon(Icons.send)),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom))
+        ],
       ),
     );
   }

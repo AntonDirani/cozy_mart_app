@@ -124,18 +124,26 @@ class Body extends StatelessWidget {
                                 end: Color(0xFFFF7EDF)),
                           ),
                           IconButton(
-                            icon: const Icon(
-                              Icons.add_comment,
-                              size: 40,
-                              color: Color(0xFFBE93D4),
-                            ),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Comment(),
+                              icon: const Icon(
+                                Icons.add_comment,
+                                size: 40,
+                                color: Color(0xFFBE93D4),
                               ),
-                            ),
-                          ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return MyComment();
+                                  },
+                                );
+                              }),
                         ],
                       ),
                       SizedBox(height: 20 / 2),

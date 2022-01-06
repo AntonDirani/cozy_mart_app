@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class User {
+class User with ChangeNotifier {
   late final int id;
   late final String firstName;
   late final String lastName;
@@ -9,16 +9,18 @@ class User {
   late final String gender;
   late final DateTime dateOfBirth;
   late final String password;
-
-  User({
-    required this.id,
-    required this.email,
-    required this.phoneNumber,
-    required this.gender,
-    required this.dateOfBirth,
-    required this.password,
-    required this.firstName,
-    required this.lastName,
-  });
+  //
+  //
+  //
+  // User.a({
+  //   required this.id,
+  //   required this.email,
+  //   required this.phoneNumber,
+  //   required this.gender,
+  //   required this.dateOfBirth,
+  //   required this.password,
+  //   required this.firstName,
+  //   required this.lastName,
+  // });
 }
 //tonyyyy
