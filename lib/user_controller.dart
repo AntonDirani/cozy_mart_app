@@ -34,7 +34,7 @@ class UserHttpService {
 
   Future<dynamic> SignupUser(
       String email, String password, String userName, String number) async {
-    final url = Uri.parse('http://192.168.1.107:8000/api/user');
+    final url = Uri.parse('http://192.168.1.110:8000/api/user');
     try {
       final response = await http
           .post(
@@ -46,7 +46,7 @@ class UserHttpService {
         body: json.encode({
           "User_name": userName,
           "Email": email,
-          "Phone_number": number,
+          "Phone_number": '0888888888',
           "Gender": 'mayaa',
           "Date_of_birth": '2000/8/25',
           "password": password,
