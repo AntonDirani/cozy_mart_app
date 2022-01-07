@@ -26,7 +26,12 @@ class _AllProductsState extends State<AllProducts> {
           user: user,
         ),
         appBar: customAppBar(),
-        body: Body(),
+        body: /* AddProductState.returnLoad()
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            :*/
+            Body(),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             elevation: 1,

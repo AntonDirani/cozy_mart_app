@@ -7,14 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'all_products.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
   static const routeName = '/add-product';
+
   @override
   State<AddProduct> createState() => _AddProductState();
 }
@@ -40,6 +37,7 @@ class _AddProductState extends State<AddProduct> {
       expDate: DateTime.now(),
       category: 'category1');
   var _isInside = true;
+  var isLoading = false;
   var _defValues = {
     'title': '',
     'description': '',
@@ -81,28 +79,39 @@ class _AddProductState extends State<AddProduct> {
     } else {
       formKey.currentState!.save();
       _editedProduct.image = image1;
+      setState(() {
+        isLoading = true;
+      });
+
       // _editedProduct.expDate = dateController;
-      print('b');
       if (_editedProduct.id != null) {
         Provider.of<Products>(context, listen: false)
             .updateProduct(_editedProduct.id, _editedProduct);
+        setState(() {
+          isLoading = true;
+        });
+        Navigator.of(context).pop();
       } else {
-        print('c');
-        Provider.of<Products>(context, listen: false).addProduct(
+        Provider.of<Products>(context, listen: false)
+            .addProduct(
           product: _editedProduct,
-        );
-
-        print('s');
+        )
+            .then((_) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.of(context).pop();
+        });
         if (formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Added'),
               duration: Duration(milliseconds: 500),
             ),
           );
         }
       }
-      Navigator.of(context).pop();
+
       //print(_editedProduct.category);
     }
   }
@@ -114,102 +123,106 @@ class _AddProductState extends State<AddProduct> {
         appBar: AppBar(
           title: const Text('Add Product'),
         ),
-        body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Form(
-              key: formKey,
-              child: ListView(children: [
-                TextFieldP(
-                  initial: _defValues['title'],
-                  labelp: '  Title',
-                  // controller: titleController,
-                  onChanged: (value) {
-                    _editedProduct = Product.a(
-                        title: value,
-                        price: _editedProduct.price,
-                        description: _editedProduct.description,
-                        id: _editedProduct.id,
-                        phoneNumber: _editedProduct.phoneNumber,
-                        quantity: _editedProduct.quantity,
-                        image: _editedProduct.image,
-                        expDate: _editedProduct.expDate);
-                  },
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter  title ';
-                    }
-                    return null;
-                  },
-                ),
-                TextFieldP(
-                  initial: _defValues['description'],
-                  labelp: '  Description',
-                  // controller: descriptionController,
-                  onChanged: (value) {
-                    _editedProduct = Product.a(
-                        title: _editedProduct.title,
-                        price: _editedProduct.price,
-                        description: value,
-                        id: _editedProduct.id,
-                        phoneNumber: _editedProduct.phoneNumber,
-                        quantity: _editedProduct.quantity,
-                        image: _editedProduct.image,
-                        expDate: _editedProduct.expDate);
-                  },
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter  Description';
-                    }
-                    return null;
-                  },
-                ),
-                TextFieldP(
-                  initial: _defValues['quantity'],
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Quantity',
-                  //controller: quantityController,
-                  onChanged: (value) {
-                    _editedProduct = Product.a(
-                        title: _editedProduct.title,
-                        price: _editedProduct.price,
-                        description: _editedProduct.description,
-                        id: _editedProduct.id,
-                        phoneNumber: _editedProduct.phoneNumber,
-                        quantity: int.parse(value),
-                        image: _editedProduct.image,
-                        expDate: _editedProduct.expDate);
-                  },
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Quantity ';
-                    }
-                    return null;
-                  },
-                ),
-                TextFieldP(
-                  initial: _defValues['price'],
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Price',
-                  // controller: priceController,
-                  onChanged: (value) {
-                    _editedProduct = Product.a(
-                        title: _editedProduct.title,
-                        price: double.parse(value),
-                        description: _editedProduct.description,
-                        id: _editedProduct.id,
-                        phoneNumber: _editedProduct.phoneNumber,
-                        quantity: _editedProduct.quantity,
-                        image: _editedProduct.image,
-                        expDate: _editedProduct.expDate);
-                  },
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Price ';
-                    }
-                    return null;
-                  },
-                ),
-                /*TextFieldP(
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Form(
+                  key: formKey,
+                  child: ListView(children: [
+                    TextFieldP(
+                      initial: _defValues['title'],
+                      labelp: '  Title',
+                      // controller: titleController,
+                      onChanged: (value) {
+                        _editedProduct = Product.a(
+                            title: value,
+                            price: _editedProduct.price,
+                            description: _editedProduct.description,
+                            id: _editedProduct.id,
+                            phoneNumber: _editedProduct.phoneNumber,
+                            quantity: _editedProduct.quantity,
+                            image: _editedProduct.image,
+                            expDate: _editedProduct.expDate);
+                      },
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter  title ';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFieldP(
+                      initial: _defValues['description'],
+                      labelp: '  Description',
+                      // controller: descriptionController,
+                      onChanged: (value) {
+                        _editedProduct = Product.a(
+                            title: _editedProduct.title,
+                            price: _editedProduct.price,
+                            description: value,
+                            id: _editedProduct.id,
+                            phoneNumber: _editedProduct.phoneNumber,
+                            quantity: _editedProduct.quantity,
+                            image: _editedProduct.image,
+                            expDate: _editedProduct.expDate);
+                      },
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter  Description';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFieldP(
+                      initial: _defValues['quantity'],
+                      keyboardTypep: TextInputType.number,
+                      labelp: '  Quantity',
+                      //controller: quantityController,
+                      onChanged: (value) {
+                        _editedProduct = Product.a(
+                            title: _editedProduct.title,
+                            price: _editedProduct.price,
+                            description: _editedProduct.description,
+                            id: _editedProduct.id,
+                            phoneNumber: _editedProduct.phoneNumber,
+                            quantity: int.parse(value),
+                            image: _editedProduct.image,
+                            expDate: _editedProduct.expDate);
+                      },
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter Quantity ';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFieldP(
+                      initial: _defValues['price'],
+                      keyboardTypep: TextInputType.number,
+                      labelp: '  Price',
+                      // controller: priceController,
+                      onChanged: (value) {
+                        _editedProduct = Product.a(
+                            title: _editedProduct.title,
+                            price: double.parse(value),
+                            description: _editedProduct.description,
+                            id: _editedProduct.id,
+                            phoneNumber: _editedProduct.phoneNumber,
+                            quantity: _editedProduct.quantity,
+                            image: _editedProduct.image,
+                            expDate: _editedProduct.expDate);
+                      },
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter Price ';
+                        }
+                        return null;
+                      },
+                    ),
+                    /*TextFieldP(
                 keyboardTypep: TextInputType.number,
                 labelp: '  Price',
                 //controller: priceController,
@@ -223,7 +236,7 @@ class _AddProductState extends State<AddProduct> {
               ),
 
                */
-                /*TextFieldP(
+                    /*TextFieldP(
                 //keyboardTypep: TextInputType.number,
                 labelp: '  Price',
                 //controller: priceController,
@@ -235,124 +248,124 @@ class _AddProductState extends State<AddProduct> {
                   return null;
                 },
               ),*/
-                TextFieldP(
-                  initial: _defValues['phoneNumber'],
-                  keyboardTypep: TextInputType.number,
-                  labelp: '  Phone Number',
-                  // controller: phoneController,
-                  onChanged: (value) {
-                    _editedProduct = Product.a(
-                        title: _editedProduct.title,
-                        price: _editedProduct.price,
-                        description: _editedProduct.description,
-                        id: _editedProduct.id,
-                        phoneNumber: value,
-                        quantity: _editedProduct.quantity,
-                        image: _editedProduct.image,
-                        expDate: _editedProduct.expDate);
-                  },
-                  validate: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Phone Number ';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: dateController,
-                  onChanged: (value) {},
-                  decoration: const InputDecoration(
-                    labelText: '  Expiration Date ',
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  readOnly: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter Expiration Date';
-                    }
-                    return null;
-                  },
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2101));
+                    TextFieldP(
+                      initial: _defValues['phoneNumber'],
+                      keyboardTypep: TextInputType.number,
+                      labelp: '  Phone Number',
+                      // controller: phoneController,
+                      onChanged: (value) {
+                        _editedProduct = Product.a(
+                            title: _editedProduct.title,
+                            price: _editedProduct.price,
+                            description: _editedProduct.description,
+                            id: _editedProduct.id,
+                            phoneNumber: value,
+                            quantity: _editedProduct.quantity,
+                            image: _editedProduct.image,
+                            expDate: _editedProduct.expDate);
+                      },
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter Phone Number ';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: dateController,
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        labelText: '  Expiration Date ',
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      readOnly: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter Expiration Date';
+                        }
+                        return null;
+                      },
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2101));
 
-                    if (pickedDate != null) {
-                      String formattedDate =
-                          DateFormat('yyyy-MM-dd').format(pickedDate);
-                      setState(() {
-                        dateController.text = formattedDate;
-                      });
-                    }
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Category :',
-                    style: TextStyle(
-                      color: Colors.deepPurple,
+                        if (pickedDate != null) {
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                          setState(() {
+                            dateController.text = formattedDate;
+                          });
+                        }
+                      },
                     ),
-                  ),
-                  trailing: DropdownButton<String>(
-                    hint: Text('Click'),
-                    value: _editedProduct.category,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _editedProduct.category = newValue;
-                      });
-                    },
-                    items: _dropDownMenuItems,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white30,
-                    //shadowColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                  child: const Text(
-                    'Choose picture from Gallery',
-                    style: TextStyle(
-                      color: Colors.black,
-                      //fontSize: 25.0,
-                      fontFamily: 'Montserrat',
+                    ListTile(
+                      title: const Text(
+                        'Category :',
+                        style: TextStyle(
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                      trailing: DropdownButton<String>(
+                        hint: Text('Click'),
+                        value: _editedProduct.category,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _editedProduct.category = newValue;
+                          });
+                        },
+                        items: _dropDownMenuItems,
+                      ),
                     ),
-                  ),
-                  onPressed: () => pickImage(),
-                  // provider
-                  //  onPressed: () {
-                  //  context.read<Products>().getImage();
-                  //},
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Consumer(
-                  builder: (ctx, value, _) => ElevatedButton(
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.deepPurple,
+                        primary: Colors.white30,
+                        //shadowColor: Colors.purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                       ),
                       child: const Text(
-                        'Add Product',
+                        'Choose picture from Gallery',
                         style: TextStyle(
+                          color: Colors.black,
                           //fontSize: 25.0,
                           fontFamily: 'Montserrat',
                         ),
                       ),
-                      onPressed: () {
-                        _saveForm();
-                      }),
-                ),
-              ]),
-            )));
+                      onPressed: () => pickImage(),
+                      // provider
+                      //  onPressed: () {
+                      //  context.read<Products>().getImage();
+                      //},
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Consumer(
+                      builder: (ctx, value, _) => ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepPurple,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          child: const Text(
+                            'Add Product',
+                            style: TextStyle(
+                              //fontSize: 25.0,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                          onPressed: () {
+                            _saveForm();
+                          }),
+                    ),
+                  ]),
+                )));
   }
 
   static const menuItems = <String>[

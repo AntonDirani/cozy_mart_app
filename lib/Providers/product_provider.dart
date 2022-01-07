@@ -52,16 +52,16 @@ class Products with ChangeNotifier {
     return productsList.firstWhere((prod) => prod.id == id);
   }
 
-  void addProduct({required Product product}) {
-    var productURL = 'http://192.168.43.228:8000/api/product';
-    Dio().post(productURL, data: {
+  Future<void> addProduct({required Product product}) {
+    var productURL = 'http://192.168.1.107:8000/api/product';
+    return Dio().post(productURL, data: {
       "User_id": 3,
-      "product_name": "iiiii4",
-      "product_type": "kr",
-      "product_quantity": 50,
+      "product_name": product.title,
+      "product_type": product.category,
+      "product_quantity": product.quantity,
       "product_expire_date": "2022/12/22",
-      "product_price": 20,
-      "product_desc": "productdescription"
+      "product_price": product.price,
+      "product_desc": product.description
     }).then((response) {
       print(response.data);
       final newProduct = Product.a(
