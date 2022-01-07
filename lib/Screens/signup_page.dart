@@ -39,11 +39,9 @@ class _SignupPageState extends State<SignupPage> {
     } else {
       UserHttpService service = UserHttpService();
       try {
-        final result = await service.SignupUser(
-            emailcontroller.text,
-            passwordcontroller.text,
-            numcontroller.text,
-            userNamecontroller.text);
+        formKey.currentState!.save();
+        final result =
+            await service.SignupUser(email, password, phone, userName);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return AllProducts();
         }));

@@ -34,8 +34,7 @@ class UserHttpService {
 
   Future<dynamic> SignupUser(
       String email, String password, String userName, String number) async {
-    final url = Uri.parse('http://192.168.1.110:8000/api/user');
-
+    final url = Uri.parse('http://192.168.1.107:8000/api/user');
     try {
       final response = await http
           .post(
