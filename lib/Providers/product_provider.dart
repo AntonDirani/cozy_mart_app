@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../main.dart';
+
 class Product extends ChangeNotifier {
   late final String? id;
   late final String title;
@@ -53,7 +55,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct({required Product product}) {
-    var productURL = 'http://192.168.1.107:8000/api/product';
+    var productURL = url2;
     return Dio().post(productURL, data: {
       "User_id": 3,
       "product_name": product.title,
@@ -77,6 +79,8 @@ class Products with ChangeNotifier {
       );
       productsList.add(newProduct);
       notifyListeners();
+    }).catchError((error) {
+      throw error;
     });
   }
 

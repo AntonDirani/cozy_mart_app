@@ -9,6 +9,7 @@ import 'Providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String url1 = 'http://192.168.43.94:8000/api/';
+const String url2 = 'http://192.168.43.94:8000/api/product';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

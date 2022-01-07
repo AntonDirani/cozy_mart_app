@@ -96,7 +96,21 @@ class _AddProductState extends State<AddProduct> {
             .addProduct(
           product: _editedProduct,
         )
-            .then((_) {
+            .catchError((error) {
+          return showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text('Error'),
+                    content: Text('Something Went Wrong.'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Okay'))
+                    ],
+                  ));
+        }).then((_) {
           setState(() {
             isLoading = false;
           });

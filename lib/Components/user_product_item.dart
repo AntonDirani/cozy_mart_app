@@ -22,6 +22,7 @@ class UserProductItem extends StatelessWidget {
         child: image != null ? Image.file(image!) : Text('No Image'),
       ),
       trailing: Container(
+        color: Colors.deepPurple,
         width: 100,
         child: Row(
           children: <Widget>[
