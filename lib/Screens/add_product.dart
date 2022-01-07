@@ -232,6 +232,8 @@ class _AddProductState extends State<AddProduct> {
                       validate: (value) {
                         if (value!.isEmpty) {
                           return 'Enter Price ';
+                        } else if (value.length < 1) {
+                          return ' error ';
                         }
                         return null;
                       },
@@ -281,6 +283,8 @@ class _AddProductState extends State<AddProduct> {
                       validate: (value) {
                         if (value!.isEmpty) {
                           return 'Enter Phone Number ';
+                        } else if (value.length < 10) {
+                          return 'The password is too short! ';
                         }
                         return null;
                       },

@@ -1,4 +1,6 @@
+import 'dart:core';
 import 'package:cozy_mart_0/Screens/all_products.dart';
+import 'package:cozy_mart_0/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'package:cozy_mart_0/Components/defButton.dart';
@@ -13,12 +15,31 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
-
-  var formKey = GlobalKey();
-
   bool isPassword = false;
+  var formKey = GlobalKey<FormState>();
+  bool islogin = true;
+  String email = '';
+  String password = '';
+
+  Future<void> login() async {
+    final isValid = formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (!isValid) {
+      return;
+    } else {
+      UserHttpService service = UserHttpService();
+      try {
+        final result = await service.loginUser(
+            emailController.text, passwordController.text);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return AllProducts();
+        }));
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +76,19 @@ class _LoginPageState extends State<LoginPage> {
                         child: MyTextField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
-                          onChanged: (email) {},
+                          onChanged: (value) {
+                            email = value;
+                          },
                           label: 'Email',
                           prefixIcon: Icon(Icons.email),
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !value.contains('@') ||
+                                !value.contains('com')) {
+                              return 'Enter email ';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -75,17 +106,35 @@ class _LoginPageState extends State<LoginPage> {
                                 isPassword = !isPassword;
                               });
                             },
-                            onChanged: (password) {},
+                            onChanged: (value) => password = value,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter password ';
+                              } else if (value.length < 6) {
+                                return 'The password is too short ';
+                              }
+                              return null;
+                            },
                           )),
                       const SizedBox(
                         height: 30.0,
                       ),
-                      DefButton(
-                        buttonText: 'Log In',
-                        buttonDestination: AllProducts(),
-                        bWidth: 200,
-                        bHeight: 50,
-                      ),
+                      ElevatedButton(
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.deepPurple,
+                              fixedSize: const Size(200, 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50))),
+                          onPressed: () {
+                            login();
+                          }),
                     ],
                   ),
                 ),

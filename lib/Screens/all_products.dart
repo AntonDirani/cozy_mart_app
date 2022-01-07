@@ -33,7 +33,7 @@ class _AllProductsState extends State<AllProducts> {
             :*/
             Body(),
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             elevation: 1,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -48,16 +48,16 @@ class _AllProductsState extends State<AllProducts> {
     return AppBar(
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
           onPressed: () {
             showSearch(context: context, delegate: CustomSearch());
           },
         ),
         IconButton(
-          icon: Icon(CupertinoIcons.cart),
+          icon: const Icon(CupertinoIcons.cart),
           onPressed: () {},
         ),
-        SizedBox(width: 10.0)
+        const SizedBox(width: 10.0)
       ],
     );
   }
@@ -321,7 +321,7 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 color: Colors.deepPurple,
                 borderRadius: BorderRadius.circular(16),
@@ -330,7 +330,7 @@ class ItemCard extends StatelessWidget {
                 tag: {product.id},
                 child: product.image != null
                     ? Image.file(product.image!)
-                    : Text('No Image'),
+                    : const Text('No Image'),
               ),
             ),
           ),
@@ -339,12 +339,12 @@ class ItemCard extends StatelessWidget {
             child: Text(
               // products is out demo list
               product.title,
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             ),
           ),
           Text(
             "\$${product.price}",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],
       ),

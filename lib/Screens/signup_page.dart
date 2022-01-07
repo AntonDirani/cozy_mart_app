@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:validators/validators.dart';
 import 'package:flutter/services.dart';
 
+import '../user_controller.dart';
+import 'all_products.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -14,13 +17,54 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController full_namecontroller = TextEditingController();
+  TextEditingController userNamecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
-  TextEditingController phone_numcontroller = TextEditingController();
+  TextEditingController numcontroller = TextEditingController();
   TextEditingController datecontroller = TextEditingController();
-  var formKey = GlobalKey<FormState>();
   bool isPassword = true;
+
+  var formKey = GlobalKey<FormState>();
+  bool isSingup = true;
+  String userName = '';
+  String email = '';
+  String password = '';
+  String phone = '';
+
+  Future<void> Signup() async {
+    final isValid = formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (!isValid) {
+      return;
+    } else {
+      UserHttpService service = UserHttpService();
+      try {
+        final result = await service.SignupUser(
+            emailcontroller.text,
+            passwordcontroller.text,
+            numcontroller.text,
+            userNamecontroller.text);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return AllProducts();
+        }));
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+  }
+
+  void _Signup() {
+    final isValid = formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      formKey.currentState!.save();
+      print(email);
+      print(password);
+      print(userName);
+      print(phone);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +96,16 @@ class _SignupPageState extends State<SignupPage> {
                         padding:
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
-                          controller: full_namecontroller,
+                          controller: userNamecontroller,
                           hint: 'Full Name',
-                          onChanged: (name) {},
+                          onChanged: (value) => userName = value,
                           prefixIcon: const Icon(Icons.account_circle_sharp),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter name ';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -63,9 +113,17 @@ class _SignupPageState extends State<SignupPage> {
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
                           controller: emailcontroller,
-                          onChanged: (email) {},
+                          onChanged: (value) => email = value,
                           hint: 'Email',
                           prefixIcon: const Icon(Icons.email),
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !value.contains('@') ||
+                                !value.contains('com')) {
+                              return 'Enter email ';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -84,63 +142,52 @@ class _SignupPageState extends State<SignupPage> {
                                 isPassword = !isPassword;
                               });
                             },
-                            onChanged: (password) {},
+                            onChanged: (value) => password = value,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter password ';
+                              } else if (value.length < 5) {
+                                return 'The password is too short! ';
+                              }
+                              return null;
+                            },
                           )),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
-                          controller: phone_numcontroller,
+                          controller: numcontroller,
                           keyboardType: TextInputType.number,
-                          onChanged: (phone_number) {},
+                          onChanged: (value) => phone = value,
                           hint: 'Phone Number',
                           prefixIcon: const Icon(Icons.call),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
-                        child: TextField(
-                          controller: datecontroller,
-                          decoration: InputDecoration(
-                              filled: true,
-                              labelText: 'Enter Date',
-                              prefixIcon: const Icon(Icons.calendar_today),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              )),
-                          readOnly: true,
-                          onChanged: (date) {},
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                lastDate: DateTime(2101));
-
-                            if (pickedDate != null) {
-                              print(pickedDate);
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(formattedDate);
-                              setState(() {
-                                datecontroller.text = formattedDate;
-                              });
-                            } else {
-                              print("Date is not selected");
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter phone number ';
                             }
+                            return null;
                           },
                         ),
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
-                      DefButton(
-                        buttonText: 'Sign up',
-                        buttonDestination: SignupPage(),
-                        bWidth: 200,
-                        bHeight: 50,
-                      ),
+                      ElevatedButton(
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.deepPurple,
+                              fixedSize: Size(200, 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50))),
+                          onPressed: () {
+                            Signup();
+                          }),
                     ],
                   ),
                 ),

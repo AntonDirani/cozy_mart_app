@@ -42,7 +42,8 @@ class DefButton extends StatelessWidget {
           primary: buttonColor,
           fixedSize: Size(bWidth, bHeight),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      ),
     );
   }
 }

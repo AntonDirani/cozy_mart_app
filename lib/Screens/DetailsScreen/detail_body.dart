@@ -101,15 +101,6 @@ class Body extends StatelessWidget {
                               ),
                             ),
                           ),
-                          /*ElevatedButton(
-                            onPressed: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Icon(Icons.star, size: 30),
-                            ),
-                            style:
-                                ElevatedButton.styleFrom(shape: CircleBorder()),
-                          )*/
                           const LikeButton(
                             size: 40,
                             likeCount: 0,
@@ -140,7 +131,11 @@ class Body extends StatelessWidget {
                                     ),
                                   ),
                                   builder: (BuildContext context) {
-                                    return MyComment();
+                                    return Wrap(
+                                      children: [
+                                        MyComment(),
+                                      ],
+                                    );
                                   },
                                 );
                               }),

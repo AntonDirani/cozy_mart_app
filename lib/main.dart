@@ -8,7 +8,7 @@ import 'Screens/welcome_page.dart';
 import 'Providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String url1 = 'http://192.168.43.94:8000/api/';
+const String url1 = 'http://192.168.1.110:8000';
 const String url2 = 'http://192.168.43.94:8000/api/product';
 
 void main() {
@@ -31,10 +31,7 @@ void main() {
           ChangeNotifierProvider<Products>(create: (_) {
             return Products();
           }),
-          ChangeNotifierProvider<User>(create: (_) {
-            return User();
-          }),
-          ChangeNotifierProvider<User>(create: (_) => User())
+          ChangeNotifierProvider<Auth>(create: (_) => Auth())
         ],
         child: MyApp(),
       ),
