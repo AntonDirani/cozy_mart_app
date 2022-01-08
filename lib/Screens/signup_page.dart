@@ -17,11 +17,11 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  TextEditingController userNamecontroller = TextEditingController();
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
-  TextEditingController numcontroller = TextEditingController();
-  TextEditingController datecontroller = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController numController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   bool isPassword = true;
 
   var formKey = GlobalKey<FormState>();
@@ -41,14 +41,17 @@ class _SignupPageState extends State<SignupPage> {
       try {
         //formKey.currentState!.save();
         final result = await service.SignupUser(
-            emailcontroller.text,
-            passwordcontroller.text,
-            numcontroller.text,
-            userNamecontroller.text);
+            email: emailController.text,
+            password: passwordController.text,
+            number: numController.text,
+            userName: userNameController.text);
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return AllProducts();
-        }));
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => AllProducts(),
+          ),
+        );
       } catch (e) {
         print(e.toString());
       }
@@ -86,9 +89,11 @@ class _SignupPageState extends State<SignupPage> {
                         padding:
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
-                          controller: userNamecontroller,
+                          controller: userNameController,
                           hint: 'Full Name',
-                          onChanged: (value) => userName = value,
+                          onChanged: (value) {
+                            userName = value;
+                          },
                           prefixIcon: const Icon(Icons.account_circle_sharp),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -102,14 +107,17 @@ class _SignupPageState extends State<SignupPage> {
                         padding:
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
-                          controller: emailcontroller,
-                          onChanged: (value) => email = value,
+                          controller: emailController,
+                          onChanged: (value) {
+                            email = value;
+                          },
                           hint: 'Email',
+                          keyboardType: TextInputType.emailAddress,
                           prefixIcon: const Icon(Icons.email),
                           validator: (value) {
                             if (value!.isEmpty ||
                                 !value.contains('@') ||
-                                !value.contains('com')) {
+                                !value.contains('.com')) {
                               return 'Enter email ';
                             }
                             return null;
@@ -120,7 +128,7 @@ class _SignupPageState extends State<SignupPage> {
                           padding:
                               const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                           child: MyTextField(
-                            controller: passwordcontroller,
+                            controller: passwordController,
                             label: 'Password',
                             prefixIcon: const Icon(Icons.lock),
                             suffixIcon: isPassword
@@ -132,7 +140,9 @@ class _SignupPageState extends State<SignupPage> {
                                 isPassword = !isPassword;
                               });
                             },
-                            onChanged: (value) => password = value,
+                            onChanged: (value) {
+                              password = value;
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Enter password ';
@@ -146,14 +156,18 @@ class _SignupPageState extends State<SignupPage> {
                         padding:
                             const EdgeInsets.fromLTRB(20.0, 10.0, 17.0, 0.0),
                         child: MyTextField(
-                          controller: numcontroller,
+                          controller: numController,
                           keyboardType: TextInputType.number,
-                          onChanged: (value) => phone = value,
+                          onChanged: (value) {
+                            phone = value;
+                          },
                           hint: 'Phone Number',
                           prefixIcon: const Icon(Icons.call),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Enter phone number ';
+                            } else if (value.length < 9 && value.length > 11) {
+                              return 'The password is too short! ';
                             }
                             return null;
                           },
@@ -164,7 +178,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       ElevatedButton(
                           child: const Text(
-                            'Log in',
+                            'Sign up',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 20,

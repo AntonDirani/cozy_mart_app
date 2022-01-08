@@ -3,9 +3,11 @@ import 'package:cozy_mart_0/Screens/signup_page.dart';
 import 'package:cozy_mart_0/main.dart';
 import 'package:cozy_mart_0/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserHttpService {
-  Future<dynamic> loginUser(String email, String password) async {
+  Future<dynamic> loginUser(
+      {required String email, required String password}) async {
     final url = Uri.parse('http://192.168.1.110:8000/api/user/login');
 
     try {
@@ -25,15 +27,23 @@ class UserHttpService {
         print(value.body);
       });
       var jsonData = jsonDecode(response.body);
+      print('======================' + jsonData);
       var token = jsonData["Token"];
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('token', token);
       return token;
-    } catch (error) {
-      throw (error);
+    } catch (e) {
+      //throw (error.toString());
+      print(e);
     }
   }
 
   Future<dynamic> SignupUser(
-      String email, String password, String userName, String number) async {
+      {required String email,
+      required String password,
+      required String userName,
+      required String number}) async {
     final url = Uri.parse('http://192.168.1.110:8000/api/user');
     try {
       final response = await http
@@ -46,9 +56,7 @@ class UserHttpService {
         body: json.encode({
           "User_name": userName,
           "Email": email,
-          "Phone_number": '0888888888',
-          "Gender": 'mayaa',
-          "Date_of_birth": '2000/8/25',
+          "Phone_number": number,
           "password": password,
         }),
       )
@@ -57,10 +65,36 @@ class UserHttpService {
       });
 
       var jsonData = jsonDecode(response.body);
+      //var token = response.body["Token"];
       var token = jsonData["Token"];
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('token', token);
       return token;
+    } catch (e) {
+      print(e.toString());
+      //throw (error);
+    }
+  }
+
+  Future<dynamic> logoutUser(String token) async {
+    final url = Uri.parse('http://192.168.1.110:8000/api/user');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      var jsonData = jsonDecode(response.body);
+      return jsonData;
     } catch (error) {
-      throw (error);
+      print(error.toString());
+      //throw (error);
     }
   }
 }

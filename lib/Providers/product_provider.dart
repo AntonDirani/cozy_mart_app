@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../main.dart';
 
 class Product extends ChangeNotifier {
@@ -79,22 +78,30 @@ class Products with ChangeNotifier {
       productsList = loadedProducts;
       notifyListeners();
     } catch (error) {
-      print(error);
+      print(error.toString());
     }
   }
 
   Future<void> addProduct({required Product product}) async {
     try {
-      final response = await Dio().post(url2, data: {
-        "User_id": 1,
-        "product_name": product.title,
-        "product_quantity": product.quantity,
-        "product_expire_date": product.expDate,
-        "product_price": product.price,
-        "product_desc": product.description,
-        "product_image": product.image2
-      });
-      print(response.data);
+      print('mayyyyyyyyyya');
+      final http.Response response = await http.post(Uri.parse(url2),
+          headers: {
+            'X-USER-TOKEN':
+                'eyJlbWFpbCI6Im1heWFAaG90bWFpbC5jb20iLCJwYXNzd29yZCI6Im1tbW1tbSIsImxvZ2dlZF9hdCI6IjA4IDAxIDIwMjIiLCJleHBpcmVkX2F0IjoiMDggMDEgMjAyMiIsInVzZXJfcm9sZSI6InVzZXIifQ==',
+          },
+          body: json.encode({
+            "product_name": "test6",
+            "product_quantity": 50,
+            "product_expire_date": "2022/12/12",
+            "product_price": 5,
+            "list_discounts": [
+              {"discount_percentage": 70, "date": "2022-01-06"},
+              {"discount_percentage": 75, "date": "2022-03-20"}
+            ],
+            "product_desc": "productdescription"
+          }));
+      print(json.decode(response.body));
       final newProduct = Product.a(
         id: DateTime.now().toString(),
         description: product.description,

@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:cozy_mart_0/Providers/user_provider.dart';
 import 'package:cozy_mart_0/Screens/edit_profile.dart';
 import 'package:cozy_mart_0/Screens/user_products.dart';
+import 'package:cozy_mart_0/Screens/welcome_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../user_controller.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 import 'edit_profile.dart';
@@ -16,6 +20,23 @@ class AllProducts extends StatefulWidget {
 }
 
 class _AllProductsState extends State<AllProducts> {
+  var Shared;
+
+  Future<void> logout() async {
+    UserHttpService service = UserHttpService();
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+
+      final result =
+          await service.logoutUser(sharedPreferences.getString('token') ?? '');
+      sharedPreferences.remove('token');
+    } catch (e) {
+      print(e.toString());
+      //}
+    }
+  }
+
   @override
   void initState() {
     Provider.of<Products>(context, listen: false).fetchProducts();
@@ -57,9 +78,11 @@ class _AllProductsState extends State<AllProducts> {
           },
         ),
         IconButton(
-          icon: const Icon(CupertinoIcons.cart),
-          onPressed: () {},
-        ),
+            //CupertinoIcons.cart
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              logout();
+            }),
         const SizedBox(width: 10.0)
       ],
     );
@@ -183,6 +206,21 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
+/* ListTile(
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WelcomePage(),
+                  ))
+            },
+            leading: IconButton(
+              //CupertinoIcons.cart
+              icon: const Icon(Icons.logout),
+              onPressed: () {},
+            ),
+            title: Text('Log out'),
+          ),*/
 class Body extends StatefulWidget {
   @override
   State<Body> createState() => _BodyState();
@@ -375,8 +413,8 @@ class User {
 
 class UserPreferences {
   static const myUser = User(
-    name: 'maya nakdali',
-    email: 'mayanakdali@gmail.com',
-    number: '0956466708',
+    name: 'User name',
+    email: '    ',
+    number: '    ',
   );
 }
