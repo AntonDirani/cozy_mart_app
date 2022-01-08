@@ -64,7 +64,7 @@ class Products with ChangeNotifier {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'X-USER-TOKEN':
-              'eyJlbWFpbCI6InRvbnkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNDQ1NDQiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
+              'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
         },
       );
 
@@ -97,19 +97,22 @@ class Products with ChangeNotifier {
     try {
       final http.Response response = await http.post(Uri.parse(url2),
           headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
             'X-USER-TOKEN':
-                'eyJlbWFpbCI6InRvbnkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNDQ1NDQiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
           },
           body: json.encode({
-            "product_name": "test6",
-            "product_quantity": 50,
+            "product_name": product.title,
+            "product_quantity": product.quantity,
             "product_expire_date": "2022/12/12",
             "product_price": 5,
             "list_discounts": [
               {"discount_percentage": 70, "date": "2022-01-06"},
               {"discount_percentage": 75, "date": "2022-03-20"}
             ],
-            "product_desc": "productdescription"
+            "product_desc": product.description,
+            "category_id": 1,
+            "product_image": product.image2
           }));
       print(json.decode(response.body));
       final newProduct = Product.a(
