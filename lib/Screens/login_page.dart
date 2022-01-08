@@ -2,6 +2,8 @@ import 'dart:core';
 import 'package:cozy_mart_0/Screens/all_products.dart';
 import 'package:cozy_mart_0/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 import 'signup_page.dart';
 import 'package:cozy_mart_0/Components/defButton.dart';
 import 'package:cozy_mart_0/Components/text_field.dart';
@@ -14,8 +16,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
   bool isPassword = false;
   var formKey = GlobalKey<FormState>();
   bool islogin = true;
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AllProducts();
     }));
-    /*final isValid = formKey.currentState!.validate();
+    final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
       return;
@@ -34,14 +36,23 @@ class _LoginPageState extends State<LoginPage> {
       UserHttpService service = UserHttpService();
       try {
         final result = await service.loginUser(
-            emailController.text, passwordController.text);
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return AllProducts();
-        }));
+          email: emailcontroller.text,
+          password: passwordcontroller.text,
+        );
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => AllProducts(),
+          ),
+        );
       } catch (e) {
         print(e.toString());
       }
-    }*/
+    }
+  }
+
+  static Future init() async {
+    var localStorage = await SharedPreferences.getInstance();
   }
 
   @override
@@ -77,10 +88,14 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                         child: MyTextField(
-                          controller: emailController,
+                          controller: emailcontroller,
                           keyboardType: TextInputType.emailAddress,
                           onChanged: (value) {
                             email = value;
+                            emailcontroller..text = email;
+                            emailcontroller
+                              ..selection = TextSelection.collapsed(
+                                  offset: emailcontroller.text.length);
                           },
                           label: 'Email',
                           prefixIcon: Icon(Icons.email),
@@ -97,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           child: MyTextField(
-                            controller: passwordController,
+                            controller: passwordcontroller,
                             label: 'Password',
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: isPassword
@@ -109,7 +124,13 @@ class _LoginPageState extends State<LoginPage> {
                                 isPassword = !isPassword;
                               });
                             },
-                            onChanged: (value) => password = value,
+                            onChanged: (value) {
+                              password = value;
+                              passwordcontroller..text = password;
+                              passwordcontroller
+                                ..selection = TextSelection.collapsed(
+                                    offset: passwordcontroller.text.length);
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Enter password ';
