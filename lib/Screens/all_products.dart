@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cozy_mart_0/Screens/edit_profile.dart';
 import 'package:cozy_mart_0/Screens/user_products.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +17,12 @@ class AllProducts extends StatefulWidget {
 
 class _AllProductsState extends State<AllProducts> {
   @override
+  void initState() {
+    Provider.of<Products>(context, listen: false).fetchProducts();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const user = UserPreferences.myUser;
     return ChangeNotifierProvider<Product>(
@@ -26,12 +34,7 @@ class _AllProductsState extends State<AllProducts> {
           user: user,
         ),
         appBar: customAppBar(),
-        body: /* AddProductState.returnLoad()
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            :*/
-            Body(),
+        body: Body(),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             elevation: 1,
@@ -185,6 +188,10 @@ class Body extends StatefulWidget {
   State<Body> createState() => _BodyState();
 }
 
+Future<void> _refreshPage(BuildContext context) async {
+  await Provider.of<Products>(context, listen: false).fetchProducts();
+}
+
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
@@ -205,33 +212,36 @@ class _BodyState extends State<Body> {
           ),
           Categories(),
           Expanded(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: prodList.isEmpty
-                    ? const Center(
-                        child: Text('There is no products'),
-                      )
-                    : GridView.builder(
-                        itemCount: prodList.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 20.0,
-                          crossAxisSpacing: 20.0,
-                          childAspectRatio: 0.75,
-                        ),
-                        itemBuilder: (ctx, i) => ItemCard(
-                          product: prodList[i],
-                          press: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return DetailsScreen(
-                                product: prodList[i],
-                              );
-                            }));
-                          },
-                        ),
-                      )),
+            child: RefreshIndicator(
+              onRefresh: () => _refreshPage(context),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: prodList.isEmpty
+                      ? const Center(
+                          child: Text('There is no products'),
+                        )
+                      : GridView.builder(
+                          itemCount: prodList.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 20.0,
+                            crossAxisSpacing: 20.0,
+                            childAspectRatio: 0.75,
+                          ),
+                          itemBuilder: (ctx, i) => ItemCard(
+                            product: prodList[i],
+                            press: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return DetailsScreen(
+                                  product: prodList[i],
+                                );
+                              }));
+                            },
+                          ),
+                        )),
+            ),
           ),
         ],
       ),
@@ -309,7 +319,6 @@ class ItemCard extends StatelessWidget {
     required this.product,
     required this.press,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -328,8 +337,8 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: {product.id},
-                child: product.image != null
-                    ? Image.file(product.image!)
+                child: product.image2 != null
+                    ? Image.file(File(product.image2!))
                     : const Text('No Image'),
               ),
             ),

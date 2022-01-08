@@ -9,7 +9,7 @@ import 'package:cozy_mart_0/Providers/product_provider.dart';
 class UserProductItem extends StatelessWidget {
   final String? id;
   final String title;
-  final File? image;
+  final String? image;
 
   UserProductItem({required this.id, required this.title, required this.image});
 
@@ -19,10 +19,14 @@ class UserProductItem extends StatelessWidget {
     return ListTile(
       title: Text(title),
       leading: Container(
-        child: image != null ? Image.file(image!) : Text('No Image'),
+        width: 80,
+        decoration: const BoxDecoration(
+            color: Colors.deepPurple,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        //color: Colors.deepPurple,
+        child: image != null ? Image.file(File(image!)) : Text('No Image'),
       ),
       trailing: Container(
-        color: Colors.deepPurple,
         width: 100,
         child: Row(
           children: <Widget>[

@@ -34,7 +34,7 @@ class _AddProductState extends State<AddProduct> {
       phoneNumber: '',
       quantity: 0,
       image: null,
-      expDate: DateTime.now(),
+      expDate: null,
       category: 'category1');
   var _isInside = true;
   var isLoading = false;
@@ -57,7 +57,7 @@ class _AddProductState extends State<AddProduct> {
             .findById(productId.toString());
         _defValues = {
           'title': _editedProduct.title,
-          'description': _editedProduct.description,
+          'description': _editedProduct.description!,
           'quantity': _editedProduct.quantity.toString(),
           'price': _editedProduct.price.toString(),
           'phoneNumber': _editedProduct.phoneNumber.toString(),
@@ -65,39 +65,42 @@ class _AddProductState extends State<AddProduct> {
           'category': ''
         };
         dateController.text =
-            DateFormat('yyyy-MM-dd').format(_editedProduct.expDate);
+            //  DateFormat('yyyy-MM-dd').format(_editedProduct.expDate);
+            _editedProduct.expDate!;
       }
     }
     _isInside = false;
     super.didChangeDependencies();
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) {
       return;
     } else {
       formKey.currentState!.save();
       _editedProduct.image = image1;
+      _editedProduct.image2 = image2;
+      _editedProduct.expDate = dateController.text;
       setState(() {
         isLoading = true;
       });
 
       // _editedProduct.expDate = dateController;
       if (_editedProduct.id != null) {
-        Provider.of<Products>(context, listen: false)
+        await Provider.of<Products>(context, listen: false)
             .updateProduct(_editedProduct.id, _editedProduct);
         setState(() {
           isLoading = true;
         });
         Navigator.of(context).pop();
       } else {
-        Provider.of<Products>(context, listen: false)
-            .addProduct(
-          product: _editedProduct,
-        )
-            .catchError((error) {
-          return showDialog(
+        try {
+          await Provider.of<Products>(context, listen: false).addProduct(
+            product: _editedProduct,
+          );
+        } catch (e) {
+          showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
                     title: Text('Error'),
@@ -105,30 +108,29 @@ class _AddProductState extends State<AddProduct> {
                     actions: [
                       TextButton(
                           onPressed: () {
-                            Navigator.of(ctx).pop();
+                            return Navigator.of(ctx).pop();
                           },
                           child: Text('Okay'))
                     ],
                   ));
-        }).then((_) {
-          setState(() {
-            isLoading = false;
-          });
-          Navigator.of(context).pop();
-        });
-        if (formKey.currentState!.validate()) {
+        }
+      }
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).pop();
+    }
+    /*if (formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Added'),
               duration: Duration(milliseconds: 500),
             ),
           );
-        }
-      }
-
-      //print(_editedProduct.category);
-    }
+        }*/
   }
+
+  //print(_editedProduct.category);
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +188,8 @@ class _AddProductState extends State<AddProduct> {
                       validate: (value) {
                         if (value!.isEmpty) {
                           return 'Enter  Description';
+                        } else if (value.length < 10) {
+                          return 'The description is too short! ';
                         }
                         return null;
                       },
@@ -221,7 +225,7 @@ class _AddProductState extends State<AddProduct> {
                       onChanged: (value) {
                         _editedProduct = Product.a(
                             title: _editedProduct.title,
-                            price: double.parse(value),
+                            price: int.parse(value),
                             description: _editedProduct.description,
                             id: _editedProduct.id,
                             phoneNumber: _editedProduct.phoneNumber,
@@ -284,7 +288,7 @@ class _AddProductState extends State<AddProduct> {
                         if (value!.isEmpty) {
                           return 'Enter Phone Number ';
                         } else if (value.length < 10) {
-                          return 'The password is too short! ';
+                          return 'The phone number is too short! ';
                         }
                         return null;
                       },
@@ -312,7 +316,7 @@ class _AddProductState extends State<AddProduct> {
 
                         if (pickedDate != null) {
                           String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              DateFormat('yyyy/MM/dd').format(pickedDate);
                           setState(() {
                             dateController.text = formattedDate;
                           });
@@ -410,6 +414,7 @@ class _AddProductState extends State<AddProduct> {
       .toList();
 
   File? image1;
+  String? image2;
   final picker = ImagePicker();
 
   Future pickImage() async {
@@ -417,8 +422,10 @@ class _AddProductState extends State<AddProduct> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image1 == null) {
         final imageT = File(image!.path);
-
-        setState(() => image1 = imageT);
+        setState(() {
+          image2 = image.path;
+          image1 = imageT;
+        });
       }
     } on PlatformException catch (e) {
       //print('Failed to pick image ');

@@ -11,27 +11,28 @@ import '../main.dart';
 class Product extends ChangeNotifier {
   late final String? id;
   late final String title;
-  late final int quantity;
-  late final String phoneNumber;
-  late final String description;
-  File? image; //File
-  late final DateTime expDate;
+  late final int? quantity;
+  late final String? phoneNumber;
+  late final String? description;
+  File? image;
+  String? image2;
+  late String? expDate;
   String? category = 'category1';
-  late final double price; //Price
+  late final int? price; //Price
 
   Product();
 
-  Product.a({
-    required this.id,
-    required this.description,
-    required this.title,
-    required this.phoneNumber,
-    required this.quantity,
-    required this.expDate,
-    this.category,
-    required this.price,
-    required this.image,
-  });
+  Product.a(
+      {this.id,
+      this.description,
+      required this.title,
+      this.phoneNumber,
+      this.quantity,
+      this.expDate,
+      this.category,
+      this.price,
+      this.image,
+      this.image2});
 }
 
 enum Sale { ten, twenty, thirty, forty, fifty, sixty, seventy, eighty }
@@ -54,17 +55,45 @@ class Products with ChangeNotifier {
     return productsList.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> addProduct({required Product product}) {
-    var productURL = url2;
-    return Dio().post(productURL, data: {
-      "User_id": 3,
-      "product_name": product.title,
-      "product_type": product.category,
-      "product_quantity": product.quantity,
-      "product_expire_date": "2022/12/22",
-      "product_price": product.price,
-      "product_desc": product.description
-    }).then((response) {
+  Future<void> fetchProducts() async {
+    try {
+      final respone = await http.get(Uri.parse(url2));
+      final decodedData = (json.decode(respone.body)) as List<dynamic>;
+      final List<Product> loadedProducts = [];
+      //print(decodedData);
+      for (int i = 0; i <= decodedData.length - 1; i++) {
+        // print(decodedData[i]['product_quantity']);
+        loadedProducts.add(Product.a(
+          id: decodedData[i]['product_id'].toString(),
+          title: decodedData[i]['product_name'],
+          quantity: decodedData[i]['product_quantity'],
+          price: decodedData[i]['product_price'],
+          //  // category: decodedData[i]['product_id'],
+          description: decodedData[i]['product_desc'],
+          expDate: decodedData[i]['product_expire_date'],
+          image2: decodedData[i]['product_image'],
+          //phoneNumber: decodedData[i]['product_id'],
+        ));
+        // print('success');
+      }
+      productsList = loadedProducts;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> addProduct({required Product product}) async {
+    try {
+      final response = await Dio().post(url2, data: {
+        "User_id": 1,
+        "product_name": product.title,
+        "product_quantity": product.quantity,
+        "product_expire_date": product.expDate,
+        "product_price": product.price,
+        "product_desc": product.description,
+        "product_image": product.image2
+      });
       print(response.data);
       final newProduct = Product.a(
         id: DateTime.now().toString(),
@@ -75,17 +104,32 @@ class Products with ChangeNotifier {
         expDate: product.expDate,
         category: product.category,
         price: product.price,
+        image2: product.image2,
         image: product.image,
       );
       productsList.add(newProduct);
       notifyListeners();
-    }).catchError((error) {
-      throw error;
-    });
+    } catch (error) {
+      print(error);
+    }
   }
 
-  void updateProduct(String? id, Product newProduct) {
+  Future<void> updateProduct(String? id, Product newProduct) async {
+    var urlUpdate = Uri.parse('$url2+/$id');
     final prodIndex = productsList.indexWhere((prod) => prod.id == id);
+    try {
+      await http.put(urlUpdate,
+          body: json.encode({
+            "User_id": 1,
+            "product_name": newProduct.title,
+            "product_quantity": newProduct.quantity,
+            "product_price": newProduct.price,
+            "product_desc": newProduct.description,
+            "product_image": newProduct.image2
+          }));
+    } catch (er) {
+      print(er);
+    }
     if (prodIndex >= 0) {
       productsList[prodIndex] = newProduct;
       notifyListeners();

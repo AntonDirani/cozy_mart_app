@@ -23,7 +23,10 @@ class _LoginPageState extends State<LoginPage> {
   String password = '';
 
   Future<void> login() async {
-    final isValid = formKey.currentState!.validate();
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AllProducts();
+    }));
+    /*final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
       return;
@@ -38,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         print(e.toString());
       }
-    }
+    }*/
   }
 
   @override
