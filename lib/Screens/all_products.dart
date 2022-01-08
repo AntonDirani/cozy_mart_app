@@ -256,6 +256,7 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   List<String> categories = [
+    "All",
     "Clothes",
     "Electronics",
     "Furnitures",

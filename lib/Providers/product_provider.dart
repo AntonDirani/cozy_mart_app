@@ -57,12 +57,22 @@ class Products with ChangeNotifier {
 
   Future<void> fetchProducts() async {
     try {
-      final respone = await http.get(Uri.parse(url2));
-      final decodedData = (json.decode(respone.body)) as List<dynamic>;
+      final respone = await http.get(
+        Uri.parse(url2),
+        //options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-USER-TOKEN':
+              'eyJlbWFpbCI6InRvbnkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNDQ1NDQiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
+        },
+      );
+
+      final decodedData = json.decode(respone.body) as List<dynamic>;
       final List<Product> loadedProducts = [];
-      //print(decodedData);
+      print(decodedData);
       for (int i = 0; i <= decodedData.length - 1; i++) {
-        // print(decodedData[i]['product_quantity']);
+        print(decodedData[i]['product_quantity']);
         loadedProducts.add(Product.a(
           id: decodedData[i]['product_id'].toString(),
           title: decodedData[i]['product_name'],
@@ -85,16 +95,23 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct({required Product product}) async {
     try {
-      final response = await Dio().post(url2, data: {
-        "User_id": 1,
-        "product_name": product.title,
-        "product_quantity": product.quantity,
-        "product_expire_date": product.expDate,
-        "product_price": product.price,
-        "product_desc": product.description,
-        "product_image": product.image2
-      });
-      print(response.data);
+      final http.Response response = await http.post(Uri.parse(url2),
+          headers: {
+            'X-USER-TOKEN':
+                'eyJlbWFpbCI6InRvbnkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNDQ1NDQiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+          },
+          body: json.encode({
+            "product_name": "test6",
+            "product_quantity": 50,
+            "product_expire_date": "2022/12/12",
+            "product_price": 5,
+            "list_discounts": [
+              {"discount_percentage": 70, "date": "2022-01-06"},
+              {"discount_percentage": 75, "date": "2022-03-20"}
+            ],
+            "product_desc": "productdescription"
+          }));
+      print(json.decode(response.body));
       final newProduct = Product.a(
         id: DateTime.now().toString(),
         description: product.description,
@@ -115,18 +132,17 @@ class Products with ChangeNotifier {
   }
 
   Future<void> updateProduct(String? id, Product newProduct) async {
-    var urlUpdate = Uri.parse('$url2+/$id');
+    var urlUpdate = '$url2+/$id';
     final prodIndex = productsList.indexWhere((prod) => prod.id == id);
     try {
-      await http.put(urlUpdate,
-          body: json.encode({
-            "User_id": 1,
-            "product_name": newProduct.title,
-            "product_quantity": newProduct.quantity,
-            "product_price": newProduct.price,
-            "product_desc": newProduct.description,
-            "product_image": newProduct.image2
-          }));
+      await Dio().put(urlUpdate, data: {
+        "User_id": 1,
+        "product_name": newProduct.title,
+        "product_quantity": newProduct.quantity,
+        "product_price": newProduct.price,
+        "product_desc": newProduct.description,
+        "product_image": newProduct.image2
+      });
     } catch (er) {
       print(er);
     }
@@ -136,8 +152,19 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    productsList.removeWhere((prod) => prod.id == id);
+  Future<void> deleteProduct(String id) async {
+    final urlDelete = Uri.parse('$url2+/$id');
+    final existingProductIndex =
+        productsList.indexWhere((prod) => prod.id == id);
+    var existingProduct = productsList[existingProductIndex];
+    productsList.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(urlDelete);
+    if (response.statusCode >= 400) {
+      productsList.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+    //existingProduct = null;
   }
 }

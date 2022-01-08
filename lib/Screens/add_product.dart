@@ -386,6 +386,25 @@ class _AddProductState extends State<AddProduct> {
                             _saveForm();
                           }),
                     ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepPurple,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                        ),
+                        child: const Text(
+                          'Add Product',
+                          style: TextStyle(
+                            //fontSize: 25.0,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        onPressed: () {
+                          Provider.of<Products>(context, listen: false)
+                              .addProduct(
+                            product: _editedProduct,
+                          );
+                        }),
                   ]),
                 )));
   }

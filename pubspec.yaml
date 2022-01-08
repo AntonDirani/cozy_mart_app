@@ -42,7 +42,7 @@ dependencies:
   validators: ^3.0.0
   like_button: ^2.0.4
   comment_box: ^0.0.16
-  http: ^0.13.4
+  http: ^0.13.0
   dio:
 
 dev_dependencies:
