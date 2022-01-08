@@ -39,27 +39,19 @@ class _SignupPageState extends State<SignupPage> {
     } else {
       UserHttpService service = UserHttpService();
       try {
-        formKey.currentState!.save();
-        final result =
-            await service.SignupUser(email, password, phone, userName);
+        //formKey.currentState!.save();
+        final result = await service.SignupUser(
+            emailcontroller.text,
+            passwordcontroller.text,
+            numcontroller.text,
+            userNamecontroller.text);
+
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return AllProducts();
         }));
       } catch (e) {
         print(e.toString());
       }
-    }
-  }
-
-  void _Signup() {
-    final isValid = formKey.currentState!.validate();
-    FocusScope.of(context).unfocus();
-    if (isValid) {
-      formKey.currentState!.save();
-      print(email);
-      print(password);
-      print(userName);
-      print(phone);
     }
   }
 
