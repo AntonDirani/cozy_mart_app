@@ -10,9 +10,10 @@ class MyComment extends StatefulWidget {
 class _MyCommentState extends State<MyComment> {
   TextEditingController commentController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   List filedata = [
-    {'name': 'maya', 'message': 'mmmmmmmmmm'},
-    {'name': 'toni', 'message': 'tttttttt'},
+    {'name': 'D.Ahmad', 'message': 'Woow it is a great App '},
+    {'name': 'We', 'message': '40/40?!'},
   ];
 
   Widget commentChild() {
@@ -36,7 +37,13 @@ class _MyCommentState extends State<MyComment> {
                   filedata[index]['name'],
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(filedata[index]['message']),
+
+                hoverColor: Colors.blueGrey,
+                selectedTileColor: Colors.deepPurple,
+                subtitle: Text(
+                  filedata[index]['message'],
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             );
           },
@@ -50,7 +57,7 @@ class _MyCommentState extends State<MyComment> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        height: 600,
+        height: 500,
         margin: EdgeInsets.only(top: 8),
         padding: EdgeInsets.all(8),
         child: Column(
@@ -74,7 +81,7 @@ class _MyCommentState extends State<MyComment> {
                         onPressed: () {
                           setState(() {
                             filedata.add({
-                              "name": "mayaaaa",
+                              "name": "User",
                               "message": "${commentController.text}"
                             });
                             commentController.clear();

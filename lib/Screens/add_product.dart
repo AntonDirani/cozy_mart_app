@@ -158,6 +158,9 @@ class _AddProductState extends State<AddProduct> {
                   key: formKey,
                   child: SingleChildScrollView(
                     child: Column(children: [
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         height: 160,
                         width: 160,
