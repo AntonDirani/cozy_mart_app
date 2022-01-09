@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cozy_mart_0/Screens/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -166,8 +168,8 @@ class Body extends StatelessWidget {
                           Expanded(
                             child: Hero(
                               tag: "${product!.id}",
-                              child: product!.image != null
-                                  ? Image.file(product!.image!)
+                              child: product!.image2 != null
+                                  ? Image.file(File(product!.image2!))
                                   : Text('No Image'),
                             ),
                           ),

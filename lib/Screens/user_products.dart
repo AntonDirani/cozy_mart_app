@@ -1,10 +1,11 @@
 import 'package:cozy_mart_0/Components/user_product_item.dart';
 import 'package:cozy_mart_0/Screens/add_product.dart';
+import 'package:cozy_mart_0/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:convert';
 import 'package:cozy_mart_0/Providers/product_provider.dart';
-
+import 'package:http/http.dart' as http;
 import 'all_products.dart';
 
 class UserProductsScreen extends StatelessWidget {
@@ -13,6 +14,14 @@ class UserProductsScreen extends StatelessWidget {
   /*Future<void> _refreshProducts(BuildContext context) async {
     await Provider.of<Products>(context).fetchAndSetProducts();
   }*/
+  /*Future<String> returnUserName()async{
+    final  response = await http.get(Uri.parse('http://192.168.43.228:8000/api/user/ahmad@gmail.com'),headers: {
+      'X-USER-TOKEN':'$UserHttpService.token1'
+    });
+    final decodedData = json.decode(response.body) as Map<String,List<dynamic>>;
+    return decodedData ;
+  }*/
+
   UserProductsScreen({required this.user});
   final User user;
 

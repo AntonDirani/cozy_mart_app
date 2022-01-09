@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserHttpService {
   Future<dynamic> loginUser(
       {required String email, required String password}) async {
-    final url = Uri.parse('http://192.168.1.110:8000/api/user/login');
+    final url = Uri.parse(urlLogin);
 
     try {
       final response = await http
@@ -32,6 +32,7 @@ class UserHttpService {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('token', token);
+      token1 = token;
       return token;
     } catch (e) {
       //throw (error.toString());
@@ -39,12 +40,13 @@ class UserHttpService {
     }
   }
 
+  static var token1;
   Future<dynamic> SignupUser(
       {required String email,
       required String password,
       required String userName,
       required String number}) async {
-    final url = Uri.parse('http://192.168.1.110:8000/api/user');
+    final url = Uri.parse('http://192.168.43.228:8000/api/user');
     try {
       final response = await http
           .post(
@@ -70,7 +72,9 @@ class UserHttpService {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('token', token);
+      token1 = token;
       return token;
+      print(token);
     } catch (e) {
       print(e.toString());
       //throw (error);
@@ -86,7 +90,7 @@ class UserHttpService {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
+          'X-USER-TOKEN': 'Bearer $token',
         },
       );
 

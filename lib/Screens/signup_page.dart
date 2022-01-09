@@ -45,15 +45,15 @@ class _SignupPageState extends State<SignupPage> {
             password: passwordController.text,
             number: numController.text,
             userName: userNameController.text);
-
+      } catch (e) {
+        print(e.toString());
+      } finally {
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => AllProducts(),
           ),
         );
-      } catch (e) {
-        print(e.toString());
       }
     }
   }

@@ -8,8 +8,9 @@ import 'Screens/welcome_page.dart';
 import 'Providers/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String url1 = 'http://192.168.1.110:8000';
-const String url2 = 'http://192.168.1.110:8000/api/product';
+const String url1 = 'http://192.168.43.228:8000/api/user';
+const String url2 = 'http://192.168.43.228:8000/api/product';
+const String urlLogin = 'http://192.168.43.228:8000/api/user/login';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {

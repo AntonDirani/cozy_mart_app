@@ -13,6 +13,8 @@ import '../user_controller.dart';
 import 'DetailsScreen/product_details.dart';
 import 'add_product.dart';
 import 'edit_profile.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AllProducts extends StatefulWidget {
   @override
@@ -90,7 +92,29 @@ class _AllProductsState extends State<AllProducts> {
 }
 
 class CustomSearch extends SearchDelegate {
-  List<String> allData = ['USA', 'Russia', 'Syria'];
+  static List<String> allData = [];
+  //List<String> allData = ["tony"];
+  static void getName() {
+    List<String> loadedData = [];
+    http.get(Uri.parse('http://192.168.43.228:8000/api/product/'), headers: {
+      'X-USER-TOKEN':
+          'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
+    }).then((response1) {
+      final decoded = json.decode(response1.body) as List<dynamic>;
+      //print(decoded);
+      var temp;
+      for (int i = 0; i <= decoded.length - 1; i++) {
+        print(decoded[i]['product_name']);
+        temp = decoded[i]['product_name'];
+        loadedData.add(temp);
+      }
+      allData = loadedData;
+      //print(json.decode(response1.body));
+    });
+    print('done');
+    // return loadedData;
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -107,6 +131,7 @@ class CustomSearch extends SearchDelegate {
     return IconButton(
         onPressed: () {
           close(context, null);
+          getName();
         },
         icon: const Icon(Icons.arrow_back));
   }

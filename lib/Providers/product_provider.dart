@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:cozy_mart_0/user_controller.dart';
 import '../main.dart';
 
 class Product extends ChangeNotifier {
@@ -116,7 +116,7 @@ class Products with ChangeNotifier {
           }));
       print(json.decode(response.body));
       final newProduct = Product.a(
-        id: DateTime.now().toString(),
+        id: product.id,
         description: product.description,
         title: product.title,
         phoneNumber: product.phoneNumber,
@@ -135,17 +135,21 @@ class Products with ChangeNotifier {
   }
 
   Future<void> updateProduct(String? id, Product newProduct) async {
-    var urlUpdate = '$url2+/$id';
+    var urlUpdate = '$url2/7';
     final prodIndex = productsList.indexWhere((prod) => prod.id == id);
     try {
-      await Dio().put(urlUpdate, data: {
-        "User_id": 1,
-        "product_name": newProduct.title,
-        "product_quantity": newProduct.quantity,
-        "product_price": newProduct.price,
-        "product_desc": newProduct.description,
-        "product_image": newProduct.image2
-      });
+      await Dio().put(urlUpdate,
+          options: Options(headers: {
+            'X-USER-TOKEN':
+                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+          }),
+          data: {
+            "product_name": newProduct.title,
+            "product_quantity": newProduct.quantity,
+            "product_price": newProduct.price,
+            "product_desc": newProduct.description,
+            "product_image": newProduct.image2
+          });
     } catch (er) {
       print(er);
     }
@@ -156,15 +160,18 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final urlDelete = Uri.parse('$url2+/$id');
+    final urlDelete = Uri.parse('$url2+/9');
     final existingProductIndex =
         productsList.indexWhere((prod) => prod.id == id);
-    var existingProduct = productsList[existingProductIndex];
+    //var existingProduct = productsList[existingProductIndex];
     productsList.removeAt(existingProductIndex);
     notifyListeners();
-    final response = await http.delete(urlDelete);
+    final response = await http.delete(urlDelete, headers: {
+      'X-USER-TOKEN':
+          'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+    });
     if (response.statusCode >= 400) {
-      productsList.insert(existingProductIndex, existingProduct);
+      //productsList.insert(existingProductIndex, existingProduct);
       notifyListeners();
       throw HttpException('Could not delete product.');
     }

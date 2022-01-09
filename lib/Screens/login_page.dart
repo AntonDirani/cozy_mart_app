@@ -25,9 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   String password = '';
 
   Future<void> login() async {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AllProducts();
-    }));
     final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (!isValid) {
