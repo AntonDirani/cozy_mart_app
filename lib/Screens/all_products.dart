@@ -275,8 +275,6 @@ class _BodyState extends State<Body> {
           ),
           Categories(),
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: () => _refreshPage(context),
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: prodList.isEmpty
