@@ -275,34 +275,33 @@ class _BodyState extends State<Body> {
           ),
           Categories(),
           Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: prodList.isEmpty
-                      ? const Center(
-                          child: Text('There is no products'),
-                        )
-                      : GridView.builder(
-                          itemCount: prodList.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 20.0,
-                            crossAxisSpacing: 20.0,
-                            childAspectRatio: 0.75,
-                          ),
-                          itemBuilder: (ctx, i) => ItemCard(
-                            product: prodList[i],
-                            press: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return DetailsScreen(
-                                  product: prodList[i],
-                                );
-                              }));
-                            },
-                          ),
-                        )),
-            ),
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: prodList.isEmpty
+                    ? const Center(
+                        child: Text('There is no products'),
+                      )
+                    : GridView.builder(
+                        itemCount: prodList.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20.0,
+                          crossAxisSpacing: 20.0,
+                          childAspectRatio: 0.75,
+                        ),
+                        itemBuilder: (ctx, i) => ItemCard(
+                          product: prodList[i],
+                          press: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailsScreen(
+                                product: prodList[i],
+                              );
+                            }));
+                          },
+                        ),
+                      )),
           ),
         ],
       ),
