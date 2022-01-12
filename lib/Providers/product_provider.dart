@@ -64,7 +64,7 @@ class Products with ChangeNotifier {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'X-USER-TOKEN':
-              'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
+              'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOSAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA5IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0=',
         },
       );
 
@@ -82,7 +82,7 @@ class Products with ChangeNotifier {
           description: decodedData[i]['product_desc'],
           expDate: decodedData[i]['product_expire_date'],
           image2: decodedData[i]['product_image'],
-          //phoneNumber: decodedData[i]['product_id'],
+          phoneNumber: decodedData[i]['Phone_number'],
         ));
         // print('success');
       }
@@ -99,7 +99,7 @@ class Products with ChangeNotifier {
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'X-USER-TOKEN':
-                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOSAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA5IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
           },
           body: json.encode({
             "product_name": product.title,
@@ -112,7 +112,8 @@ class Products with ChangeNotifier {
             ],
             "product_desc": product.description,
             "category_id": 1,
-            "product_image": product.image2
+            "product_image": product.image2,
+            "Phone_number": product.phoneNumber
           }));
       print(json.decode(response.body));
       final newProduct = Product.a(
@@ -141,7 +142,7 @@ class Products with ChangeNotifier {
       await Dio().put(urlUpdate,
           options: Options(headers: {
             'X-USER-TOKEN':
-                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+                'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOSAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA5IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
           }),
           data: {
             "product_name": newProduct.title,
@@ -168,7 +169,7 @@ class Products with ChangeNotifier {
     notifyListeners();
     final response = await http.delete(urlDelete, headers: {
       'X-USER-TOKEN':
-          'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOCAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA4IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
+          'eyJlbWFpbCI6InBvQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJwYXNzd29yZDIiLCJsb2dnZWRfYXQiOiIwOSAwMSAyMDIyIiwiZXhwaXJlZF9hdCI6IjA5IDAxIDIwMjIiLCJ1c2VyX3JvbGUiOiJ1c2VyIn0='
     });
     if (response.statusCode >= 400) {
       //productsList.insert(existingProductIndex, existingProduct);

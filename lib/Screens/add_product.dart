@@ -28,7 +28,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController date1Controller = TextEditingController();
   TextEditingController date2Controller = TextEditingController();
   TextEditingController date3Controller = TextEditingController();
-  String _salutation = "Clothes";
+  String _salutation = "Food";
   var formKey = GlobalKey<FormState>();
   var _editedProduct = Product.a(
       id: null,
@@ -362,7 +362,7 @@ class _AddProductState extends State<AddProduct> {
                                 child: TextFieldP(
                                   initial: _defValues['price'],
                                   keyboardTypep: TextInputType.number,
-                                  labelp: '  Price 1',
+                                  labelp: '  Sale 1',
                                   // controller: priceController,
                                   onChanged: (value) {
                                     _editedProduct = Product.a(
@@ -435,7 +435,7 @@ class _AddProductState extends State<AddProduct> {
                                 child: TextFieldP(
                                   initial: _defValues['price'],
                                   keyboardTypep: TextInputType.number,
-                                  labelp: '  Price 2',
+                                  labelp: '  Sale 2',
                                   // controller: priceController,
                                   onChanged: (value) {
                                     _editedProduct = Product.a(
@@ -507,7 +507,7 @@ class _AddProductState extends State<AddProduct> {
                               child: TextFieldP(
                                 initial: _defValues['price'],
                                 keyboardTypep: TextInputType.number,
-                                labelp: '  Price 3',
+                                labelp: '  Sale 3',
                                 // controller: priceController,
                                 onChanged: (value) {
                                   _editedProduct = Product.a(
@@ -641,12 +641,7 @@ class _AddProductState extends State<AddProduct> {
                     ))));
   }
 
-  static const menuItems = <String>[
-    'Clothes',
-    'Electronics',
-    'Furnitures',
-    'Food'
-  ];
+  static const menuItems = <String>['Food', 'Make-up'];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map(
         (String value) => DropdownMenuItem<String>(

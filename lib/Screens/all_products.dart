@@ -84,6 +84,12 @@ class _AllProductsState extends State<AllProducts> {
             icon: const Icon(Icons.logout),
             onPressed: () {
               logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => WelcomePage(),
+                ),
+              );
             }),
         const SizedBox(width: 10.0)
       ],
@@ -148,6 +154,14 @@ class CustomSearch extends SearchDelegate {
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => DetailsScreen(),
+              ),
+            );
+          },
           title: Text(result),
         );
       },
@@ -315,14 +329,7 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  List<String> categories = [
-    "All",
-    "Clothes",
-    "Electronics",
-    "Furnitures",
-    "Food",
-    "Other"
-  ];
+  List<String> categories = ["All", "Food", "Make-up"];
   // By default our first item will be selected
   int selectedIndex = 0;
   @override
@@ -345,6 +352,12 @@ class _CategoriesState extends State<Categories> {
       onTap: () {
         setState(() {
           selectedIndex = index;
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => Body2(),
+            ),
+          );*/
         });
       },
       child: Padding(
@@ -441,3 +454,19 @@ class UserPreferences {
     number: '    ',
   );
 }
+
+/*class Body2 extends StatelessWidget {
+  const Body2({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Expanded(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text('There is no products'))),
+    );
+  }
+}*/
